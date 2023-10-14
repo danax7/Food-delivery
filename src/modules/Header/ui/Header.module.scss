@@ -2,10 +2,11 @@
   display: flex;
   align-items: center;
   height: 94px;
-  padding-inline: 140px;
-  //   justify-content: space-around;
+  padding-left: 5vw;
+  padding-right: 6vw;
+  justify-content: space-between;
   background-color: var(--Gray);
-  width: calc(100vw - 280px);
+  width: calc(100vw - 11vw);
   span {
     padding: 4px;
     color: var(--green);
@@ -15,5 +16,20 @@
     font-family: Alegreya;
     line-height: 14px;
     text-transform: uppercase;
+  }
+  .LinksList {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    .item:focus {
+      color: var(--green);
+    }
+    .item:hover {
+      color: var(--green);
+      transition: 0.3s ease-in-out;
+    }
+    .item {
+      padding: 2vw;
+    }
   }
 }

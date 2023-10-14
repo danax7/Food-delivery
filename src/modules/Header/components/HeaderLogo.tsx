@@ -7,6 +7,7 @@ export const HeaderLogo = () => (
   <Link to="">
     <div className={s.logo}>
       <img src={logo} alt="logo" />
+      <span>Территория роллов</span>
     </div>
   </Link>
 );
