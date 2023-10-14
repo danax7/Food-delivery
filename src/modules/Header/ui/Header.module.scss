@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  align-items: center;
+  height: 94px;
+  padding-inline: 140px;
+  //   justify-content: space-around;
+  background-color: var(--Gray);
+  width: calc(100vw - 280px);
+  span {
+    padding: 4px;
+    color: var(--green);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    font-family: Alegreya;
+    line-height: 14px;
+    text-transform: uppercase;
+  }
+}
