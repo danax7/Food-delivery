@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import s from "./MenuItemCard.module.scss";
 interface IMenuItemCardProps {
   id: string;
@@ -20,6 +21,7 @@ const MenuItemCard = ({
   rating,
   category,
 }: IMenuItemCardProps) => {
+  //   console.log(id);
   return (
     <div className={s.MenuItemCard}>
       <img src={image} alt={name} />
