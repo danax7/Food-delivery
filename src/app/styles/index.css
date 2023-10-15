@@ -6,6 +6,7 @@ body {
   /* width: 100vw; */
   min-height: 100vh;
   --Gray: #252525;
+  --font-gray: #b3b3b3;
   --backgorund: #1a1a1a;
   --green: #34c759;
   width: 100vw;

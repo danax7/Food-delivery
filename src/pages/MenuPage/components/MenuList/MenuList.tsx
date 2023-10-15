@@ -1,7 +1,9 @@
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchMenu } from "@/modules/MenuList/Model/slice";
 import { AppDispatch, RootState } from "@/store/store";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import MenuItemCard from "../MenuItemCard/MenuItemCard";
+import s from "./MenuList.module.scss";
 
 const MenuComponent = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -20,13 +22,19 @@ const MenuComponent = () => {
   }
 
   return (
-    <div>
+    <div className={s.MenuList}>
       {menu.dishes.map((dish) => (
-        <div key={dish.id}>
-          <h2>{dish.name}</h2>
-          <p>{dish.description}</p>
-          <p>Price: {dish.price}</p>
-        </div>
+        <MenuItemCard
+          key={dish.id}
+          id={dish.id}
+          name={dish.name}
+          description={dish.description}
+          price={dish.price}
+          image={dish.image}
+          vegetarian={dish.vegetarian}
+          rating={dish.rating}
+          category={dish.category}
+        />
       ))}
     </div>
   );

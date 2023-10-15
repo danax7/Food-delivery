@@ -1,0 +1,30 @@
+.MenuItemCard {
+  width: 380px;
+  height: 437px;
+  border-radius: 6px;
+  background-color: var(--Gray);
+  img {
+    width: 380px;
+  }
+  .addToCart {
+    background-color: var(--green);
+    height: 40px;
+  }
+
+  .info {
+    padding-inline: 20px;
+    .priceBlock {
+      display: flex;
+      justify-content: space-between;
+      p {
+        color: #32d74b;
+        font-size: 22px;
+      }
+    }
+    .description {
+      p {
+        color: var(--font-gray);
+      }
+    }
+  }
+}
