@@ -17,36 +17,34 @@ const MenuList = () => {
     const vegetarian = searchParams.get("vegetarian");
     const sorting = searchParams.getAll("sorting");
     const page = searchParams.get("page");
-
-    console.log("categories:", categories);
-    console.log("vegetarian:", vegetarian);
-    console.log("sorting:", sorting);
-    console.log("page:", page);
-
     return { categories, vegetarian, sorting, page };
   };
-
-  //http://localhost:5173/?categories=Drink&vegetarian=true&sorting=PriceAsc&page=1'
+  //http://localhost:5173/?categories=Wok&categories=Pizza&vegetarian=false&sorting=NameDesc&page=1
   useEffect(() => {
     const { categories, vegetarian, sorting, page } = getQueryParams();
-    const categoriesString = Array.isArray(categories)
-      ? categories.join(",")
-      : categories;
-    const sortingString = Array.isArray(sorting) ? sorting.join(",") : sorting;
+    const defaultCategories =
+      categories && categories.length > 0 ? categories : ["Wok"];
+    const defaultVegetarian = vegetarian !== null ? vegetarian : false;
+    const defaultSorting =
+      sorting && sorting.length > 0 ? sorting : ["NameAsc"];
+    const defaultPage = page !== null ? page : 1;
+
+    const categoriesString = defaultCategories.join(",");
+    const sortingString = defaultSorting.join(",");
 
     console.log("API Params:", {
       categories: categoriesString,
-      vegetarian,
+      vegetarian: defaultVegetarian,
       sorting: sortingString,
-      page,
+      page: defaultPage,
     });
 
     dispatch(
       fetchMenu({
         categories: categoriesString,
-        vegetarian,
+        vegetarian: defaultVegetarian,
         sorting: sortingString,
-        page,
+        page: defaultPage,
       })
     );
   }, [dispatch, location]);
