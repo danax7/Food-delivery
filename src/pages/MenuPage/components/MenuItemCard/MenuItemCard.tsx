@@ -24,7 +24,9 @@ const MenuItemCard = ({
   //   console.log(id);
   return (
     <div className={s.MenuItemCard}>
-      <img src={image} alt={name} />
+      <Link to={`/item/${id}`} className={s.btn}>
+        <img src={image} alt={name} />
+      </Link>
       <div className={s.info}>
         <div className={s.description}>
           <h2>{name}</h2>
@@ -36,9 +38,6 @@ const MenuItemCard = ({
         </div>
       </div>
 
-      <Link to={`/item/${id}`} className={s.btn}>
-        Подробнее
-      </Link>
       {/* <p>{vegetarian}</p>
       <p>{rating}</p>
       <p>{category}</p> */}

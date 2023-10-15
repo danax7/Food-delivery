@@ -1,48 +1,51 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { Header } from "@/modules/Header/ui/Header";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchDish,
+  selectDish,
+  selectDishLoading,
+  selectDishError,
+} from "@/modules/DishInfo/Model/slice";
 import { useParams } from "react-router-dom";
-interface IDish {
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  vegetarian: boolean;
-  rating: number;
-  category: string;
-  id: string;
-}
+
 const DishPage = () => {
   const { dishId } = useParams<{ dishId: string }>();
-  const [dish, setDish] = useState<IDish>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getDish = async () => {
-      try {
-        const response = await axios.get(
-          "https://food-delivery.kreosoft.ru/api/dish/" + `${dishId}`
-        );
-        setDish(response.data);
-      } catch (error) {
-        console.error("Ошибка при получении информации о блюде:", error);
-      }
-    };
+    dispatch(fetchDish({ dishId }));
+  }, [dispatch, dishId]);
 
-    getDish();
-  }, [dishId]);
+  const dish = useSelector(selectDish);
+  const isLoading = useSelector(selectDishLoading);
+  const error = useSelector(selectDishError);
 
-  if (!dish) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!dish) {
+    return <div>Dish not found</div>;
+  }
+
   return (
-    <div>
+    <>
+      <Header />
       <h2>{dish.name}</h2>
+      <img src={dish.image} alt={dish.name} />
+      <p>Категория блюда: {dish.category}</p>
       <p>{dish.description}</p>
       <p>Price: {dish.price}</p>
-      <img src={dish.image} alt={dish.name} />
-      <p>Category: {dish.category}</p>
-      <p>Vegetarian: {dish.vegetarian ? "Yes" : "No"}</p>
-    </div>
+      <p> {dish.rating}</p>
+      <p>
+        Vegetarian: {dish.vegetarian ? "Вегетерианское" : "Не вегетерианское"}
+      </p>
+    </>
   );
 };
 

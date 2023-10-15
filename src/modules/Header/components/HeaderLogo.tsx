@@ -4,7 +4,7 @@ import logo from "@/assets/img/logo.png";
 import s from "../ui/Header.module.scss";
 
 export const HeaderLogo = () => (
-  <Link to="">
+  <Link to={""}>
     <div className={s.logo}>
       <img src={logo} alt="logo" />
       <span>Территория роллов</span>
