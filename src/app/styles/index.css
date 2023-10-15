@@ -9,7 +9,7 @@ body {
   --backgorund: #1a1a1a;
   --green: #34c759;
   width: 100vw;
-
+  color: aliceblue;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: var(--backgorund);
 }

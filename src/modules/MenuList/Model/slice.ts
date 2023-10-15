@@ -1,11 +1,10 @@
-// src/features/menu/menuSlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { initialState } from "./state";
 import { MenuState } from "./types";
 
 interface FetchMenuParams {
-  categories: string[];
+  categories: string;
   vegetarian: boolean;
   page: number;
 }
