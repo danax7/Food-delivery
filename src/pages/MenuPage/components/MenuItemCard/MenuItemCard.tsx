@@ -36,6 +36,9 @@ const MenuItemCard = ({
         </div>
       </div>
 
+      <Link to={`/item/${id}`} className={s.btn}>
+        Подробнее
+      </Link>
       {/* <p>{vegetarian}</p>
       <p>{rating}</p>
       <p>{category}</p> */}
