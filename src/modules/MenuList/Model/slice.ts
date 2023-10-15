@@ -7,6 +7,7 @@ interface FetchMenuParams {
   categories: string;
   vegetarian: boolean;
   page: number;
+  sorting: string;
 }
 
 export const fetchMenu = createAsyncThunk<MenuState["dishes"], FetchMenuParams>(
