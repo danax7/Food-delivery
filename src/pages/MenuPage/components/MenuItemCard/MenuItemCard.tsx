@@ -34,8 +34,7 @@ const MenuItemCard = ({
         </div>
       </div>
 
-      {/* 
-      <p>{vegetarian}</p>
+      {/* <p>{vegetarian}</p>
       <p>{rating}</p>
       <p>{category}</p> */}
     </div>

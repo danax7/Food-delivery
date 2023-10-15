@@ -10,7 +10,7 @@ const MenuComponent = () => {
   const menu = useSelector((state: RootState) => state.menu);
 
   useEffect(() => {
-    dispatch(fetchMenu({ categories: "Drink", vegetarian: true, page: 1 }));
+    dispatch(fetchMenu({ categories: "Wok", vegetarian: false, page: 1 }));
   }, [dispatch]);
 
   if (menu.loading === "pending") {

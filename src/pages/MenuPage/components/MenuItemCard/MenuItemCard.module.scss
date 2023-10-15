@@ -1,6 +1,6 @@
 .MenuItemCard {
   width: 380px;
-  height: 437px;
+  min-height: 420px;
   border-radius: 6px;
   background-color: var(--Gray);
   img {
@@ -16,6 +16,7 @@
     .priceBlock {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       p {
         color: #32d74b;
         font-size: 22px;
