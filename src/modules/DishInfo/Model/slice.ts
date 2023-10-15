@@ -6,11 +6,17 @@ import { RootState } from "@/store/store";
 
 export const fetchDish = createAsyncThunk<IDish, DishInfoParams>(
   "dishInfo/fetchDish",
-  async (params) => {
-    const response = await axios.get(
-      `https://food-delivery.kreosoft.ru/api/dish/${params.dishId}`
-    );
-    return response.data;
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `https://food-delivery.kreosoft.ru/api/dish/${params.dishId}`
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching dish:", error);
+      return rejectWithValue(error.message);
+    }
   }
 );
 

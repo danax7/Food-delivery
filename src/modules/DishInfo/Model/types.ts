@@ -16,5 +16,5 @@ export interface IDish {
 }
 
 export interface DishInfoParams {
-  dishId: string;
+  dishId?: string;
 }
