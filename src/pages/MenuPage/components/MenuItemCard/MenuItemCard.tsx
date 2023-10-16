@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import s from "./MenuItemCard.module.scss";
+import vegetarianIcon from "@/assets/img/Leaf_icon.svg";
 interface IMenuItemCardProps {
   id: string;
   name: string;
@@ -25,7 +26,14 @@ const MenuItemCard = ({
   return (
     <div className={s.MenuItemCard}>
       <Link to={`/item/${id}`} className={s.btn}>
-        <img src={image} alt={name} />
+        <div className={s.ImageBlock}>
+          <img src={image} alt={name} className={s.DishImage} />
+          {vegetarian ? (
+            <img src={vegetarianIcon} className={s.vegetarianIcon}></img>
+          ) : (
+            ""
+          )}
+        </div>
       </Link>
       <div className={s.info}>
         <div className={s.description}>
@@ -37,10 +45,6 @@ const MenuItemCard = ({
           <button className={s.addToCart}>В корзину</button>
         </div>
       </div>
-
-      {/* <p>{vegetarian}</p>
-      <p>{rating}</p>
-      <p>{category}</p> */}
     </div>
   );
 };

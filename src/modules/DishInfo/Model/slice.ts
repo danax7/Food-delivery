@@ -11,7 +11,6 @@ export const fetchDish = createAsyncThunk<IDish, DishInfoParams>(
       const response = await axios.get(
         `https://food-delivery.kreosoft.ru/api/dish/${params.dishId}`
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching dish:", error);

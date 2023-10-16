@@ -3,14 +3,23 @@
   min-height: 420px;
   border-radius: 6px;
   background-color: var(--Gray);
-  img {
+  .DishImage {
     width: 380px;
   }
   .addToCart {
     background-color: var(--green);
     height: 40px;
   }
-
+  .ImageBlock {
+    display: block;
+    position: relative;
+    .vegetarianIcon {
+      display: block;
+      position: absolute;
+      top: 70%;
+      left: 82%;
+    }
+  }
   .info {
     padding-inline: 20px;
     .priceBlock {
