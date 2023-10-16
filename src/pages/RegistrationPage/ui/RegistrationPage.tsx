@@ -1,8 +1,11 @@
+import { Header } from "@/modules/Header/ui/Header";
+
 const RegistrationPage = () => {
   return (
-    <div>
+    <>
+      <Header />
       <p>Registration</p>
-    </div>
+    </>
   );
 };
 
