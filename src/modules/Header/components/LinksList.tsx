@@ -3,7 +3,7 @@ import s from "../ui/Header.module.scss";
 export const LinksList = () => {
   return (
     <div className={s.LinksList}>
-      <Link to={""} className={s.item}>
+      <Link to={"/"} className={s.item}>
         Меню
       </Link>
       <Link to="" className={s.item}>
