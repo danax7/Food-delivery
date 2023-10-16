@@ -2,6 +2,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { MenuPage } from "@/pages/MenuPage/ui/MenuPage";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
+import DishPage from "@/pages/DishPage/ui/DishPage";
 
 function App() {
   return (
@@ -9,9 +10,7 @@ function App() {
       <Provider store={store}>
         <Routes>
           <Route path="" element={<MenuPage />} />
-          {/* <Route path="/films/:filmId" element={<FilmPage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/profile" element={<ProfilePage />} /> */}
+          <Route path="/item/:dishId" element={<DishPage />} />
         </Routes>
       </Provider>
     </BrowserRouter>
