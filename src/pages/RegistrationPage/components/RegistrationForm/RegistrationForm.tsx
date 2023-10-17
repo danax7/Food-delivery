@@ -15,6 +15,7 @@ const RegistrationForm = () => {
     null
   );
   const [selectedStreet, setSelectedStreet] = useState<string | null>(null);
+  const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
   const [buildingFields, setBuildingFields] = useState<any[]>([]);
   const [subAddressType, setSubAddressType] = useState<string>(
     "Следующий элемент адреса"
@@ -22,18 +23,79 @@ const RegistrationForm = () => {
   const [streetType, setStreetType] = useState<string>(
     "Следующий элемент адреса"
   );
+
+  const fetchData = async (url, callback) => {
+    try {
+      const response = await axios.get(url);
+
+      callback(response.data);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(
+      "https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=0",
+      setAddressFields
+    );
+  }, []);
+
+  const handleAddressChange = async (objectId: string) => {
+    fetchData(
+      `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}`,
+      (data) => {
+        setSubAddressFields(data);
+        setSubAddressType(
+          data.length > 0 ? data[0].objectLevelText : "Следующий элемент адреса"
+        );
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (selectedSubAddress) {
+      fetchData(
+        `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${selectedSubAddress}`,
+        (data) => {
+          setStreetFields(data);
+          setStreetType(
+            data.length > 0
+              ? data[0].objectLevelText
+              : "Следующий элемент адреса"
+          );
+        }
+      );
+    }
+  }, [selectedSubAddress]);
+
+  useEffect(() => {
+    if (selectedStreet) {
+      fetchData(
+        `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${selectedStreet}`,
+        setBuildingFields
+      );
+    }
+  }, [selectedStreet]);
+
   const formik = useFormik({
     initialValues: {
       fullName: "",
       gender: "Male",
+      password: "",
+      email: "",
       phoneNumber: "",
       address: "",
       subAddress: "",
       street: "",
+      building: "",
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required("Required"),
       gender: Yup.string().required("Required"),
+      email: Yup.string().email("Invalid email").required("Required"),
+      password: Yup.string().required("Required"),
+
       phoneNumber: Yup.string()
         .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, "Invalid phone number")
         .required("Required"),
@@ -43,85 +105,26 @@ const RegistrationForm = () => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await axios.post("/api/account/register", values);
+        const formattedData = {
+          fullName: values.fullName,
+          password: values.password,
+          email: values.email,
+          addressId: values.building,
+          birthDate: selectedDate?.toISOString() || null,
+          gender: values.gender,
+          phoneNumber: values.phoneNumber,
+        };
+        console.log(formattedData);
+        const response = await axios.post(
+          "/api/account/register",
+          formattedData
+        );
         console.log("Registration successful. Token:", response.data.token);
       } catch (error) {
         console.error("Registration failed:", error);
       }
     },
   });
-
-  useEffect(() => {
-    const fetchAddressFields = async () => {
-      try {
-        const response = await axios.get(
-          "https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=0"
-        );
-        setAddressFields(response.data);
-      } catch (error) {
-        console.error("Failed to fetch address fields:", error);
-      }
-    };
-
-    fetchAddressFields();
-  }, []);
-
-  const handleAddressChange = async (objectId: string) => {
-    try {
-      const response = await axios.get(
-        `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}`
-      );
-      setSubAddressFields(response.data);
-
-      if (response.data.length > 0) {
-        setSubAddressType(response.data[0].objectLevelText);
-      } else {
-        setSubAddressType("Следующий элемент адреса");
-      }
-    } catch (error) {
-      console.error("Failed to fetch sub-address fields:", error);
-    }
-  };
-  useEffect(() => {
-    if (selectedSubAddress) {
-      const fetchStreetFields = async () => {
-        try {
-          const response = await axios.get(
-            `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${selectedSubAddress}`
-          );
-          setStreetFields(response.data);
-          console.log(selectedSubAddress);
-          console.log(response.data);
-          if (response.data.length > 0) {
-            setStreetType(response.data[0].objectLevelText);
-          } else {
-            setStreetType("Следующий элемент адреса");
-          }
-        } catch (error) {
-          console.error("Failed to fetch street fields:", error);
-        }
-      };
-
-      fetchStreetFields();
-    }
-  }, [selectedSubAddress]);
-
-  useEffect(() => {
-    if (selectedStreet) {
-      const fetchBuildingFields = async () => {
-        try {
-          const response = await axios.get(
-            `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${selectedStreet}`
-          );
-          setBuildingFields(response.data);
-        } catch (error) {
-          console.error("Failed to fetch building fields:", error);
-        }
-      };
-
-      fetchBuildingFields();
-    }
-  }, [selectedStreet]);
   return (
     <form onSubmit={formik.handleSubmit}>
       <div>
@@ -257,13 +260,15 @@ const RegistrationForm = () => {
           ) : null}
         </div>
       )}
-      {selectedStreet && (
+      {selectedSubAddress && (
         <div>
           <label htmlFor="building">Дом:</label>
           <select
             id="building"
             name="building"
             onChange={(e) => {
+              setSelectedBuilding(e.target.value);
+              console.log(e.target.value);
               formik.handleChange(e);
             }}
             onBlur={formik.handleBlur}
@@ -271,7 +276,7 @@ const RegistrationForm = () => {
           >
             <option value="" label="выбрать"></option>
             {buildingFields.map((field, index) => (
-              <option key={index} value={field.objectId}>
+              <option key={index} value={field.objectGuid}>
                 {field.text}
               </option>
             ))}
@@ -281,6 +286,34 @@ const RegistrationForm = () => {
           ) : null}
         </div>
       )}
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <div>{formik.errors.email}</div>
+        ) : null}
+      </div>
+      <div>
+        <label htmlFor="password">Password:</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+        />
+        {formik.touched.password && formik.errors.password ? (
+          <div>{formik.errors.password}</div>
+        ) : null}
+      </div>
 
       <button type="submit">Register</button>
     </form>
