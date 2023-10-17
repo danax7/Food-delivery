@@ -1,10 +1,11 @@
 import { Header } from "@/modules/Header/ui/Header";
+import RegistrationForm from "../components/RegistrationForm/RegistrationForm";
 
 const RegistrationPage = () => {
   return (
     <>
       <Header />
-      <p>Registration</p>
+      <RegistrationForm />
     </>
   );
 };
