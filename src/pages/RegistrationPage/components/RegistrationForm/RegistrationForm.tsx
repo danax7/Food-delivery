@@ -97,6 +97,19 @@ const RegistrationForm = () => {
           <div>{formik.errors.phoneNumber}</div>
         ) : null}
       </div>
+      <div>
+        <label htmlFor="dob">Дата рождения:</label>
+        <DatePicker
+          id="dob"
+          name="dob"
+          selected={selectedDate}
+          onChange={(date) => {
+            setSelectedDate(date);
+            formik.setFieldValue("dob", date);
+          }}
+          dateFormat="dd/MM/yyyy"
+        />
+      </div>
 
       <div>
         <label htmlFor="address">Субъект РФ</label>
