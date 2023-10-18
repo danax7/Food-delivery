@@ -116,7 +116,7 @@ const RegistrationForm = () => {
         };
         console.log(formattedData);
         const response = await axios.post(
-          "/api/account/register",
+          "https://food-delivery.kreosoft.ru/api/account/register",
           formattedData
         );
         console.log("Registration successful. Token:", response.data.token);
