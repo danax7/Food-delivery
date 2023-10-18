@@ -7,27 +7,14 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const RegistrationForm = () => {
   const [addressFields, setAddressFields] = useState<any[]>([]);
-  const [subAddressFields, setSubAddressFields] = useState<any[]>([]);
-  const [streetFields, setStreetFields] = useState<any[]>([]);
+  const [addressChain, setAddressChain] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
-  const [selectedSubAddress, setSelectedSubAddress] = useState<string | null>(
-    null
-  );
-  const [selectedStreet, setSelectedStreet] = useState<string | null>(null);
-  const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
-  const [buildingFields, setBuildingFields] = useState<any[]>([]);
-  const [subAddressType, setSubAddressType] = useState<string>(
-    "Следующий элемент адреса"
-  );
-  const [streetType, setStreetType] = useState<string>(
-    "Следующий элемент адреса"
-  );
+  const [GUID, setGUID] = useState<string>("");
+  const [objectIdd, setObjectIdd] = useState<string>("");
 
   const fetchData = async (url, callback) => {
     try {
       const response = await axios.get(url);
-
       callback(response.data);
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -40,43 +27,30 @@ const RegistrationForm = () => {
       setAddressFields
     );
   }, []);
+  useEffect(() => {
+    if (
+      addressChain[addressChain.length - 1].length === 0 &&
+      addressChain.length > 2
+    ) {
+      const previousChain = addressChain[addressChain.length - 2];
 
-  const handleAddressChange = async (objectId: string) => {
+      const guid = previousChain.find((item) => item.objectId == objectIdd!)!
+        .objectGuid!;
+      console.log("guid", guid); //все ок
+      setGUID(guid);
+    }
+  }, [addressChain, objectIdd]);
+
+  const handleAddressChange = async (objectId: string, chainIndex: number) => {
     fetchData(
       `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}`,
       (data) => {
-        setSubAddressFields(data);
-        setSubAddressType(
-          data.length > 0 ? data[0].objectLevelText : "Следующий элемент адреса"
-        );
+        setAddressChain((prevChain) => prevChain.slice(0, chainIndex + 1));
+        setAddressChain((prevChain) => [...prevChain, data]);
+        setObjectIdd(objectId);
       }
     );
   };
-
-  useEffect(() => {
-    if (selectedSubAddress) {
-      fetchData(
-        `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${selectedSubAddress}`,
-        (data) => {
-          setStreetFields(data);
-          setStreetType(
-            data.length > 0
-              ? data[0].objectLevelText
-              : "Следующий элемент адреса"
-          );
-        }
-      );
-    }
-  }, [selectedSubAddress]);
-
-  useEffect(() => {
-    if (selectedStreet) {
-      fetchData(
-        `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${selectedStreet}`,
-        setBuildingFields
-      );
-    }
-  }, [selectedStreet]);
 
   const formik = useFormik({
     initialValues: {
@@ -85,23 +59,16 @@ const RegistrationForm = () => {
       password: "",
       email: "",
       phoneNumber: "",
+      dob: null,
       address: "",
-      subAddress: "",
-      street: "",
+      city: "",
+      postalCode: "",
       building: "",
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().required("Required"),
-      gender: Yup.string().required("Required"),
-      email: Yup.string().email("Invalid email").required("Required"),
-      password: Yup.string().required("Required"),
-
       phoneNumber: Yup.string()
         .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, "Invalid phone number")
         .required("Required"),
-      address: Yup.string().required("Required"),
-      subAddress: Yup.string().required("Required"),
-      street: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
       try {
@@ -109,11 +76,12 @@ const RegistrationForm = () => {
           fullName: values.fullName,
           password: values.password,
           email: values.email,
-          addressId: values.building,
+          addressId: GUID,
           birthDate: selectedDate?.toISOString() || null,
           gender: values.gender,
           phoneNumber: values.phoneNumber,
         };
+
         console.log(formattedData);
         const response = await axios.post(
           "https://food-delivery.kreosoft.ru/api/account/register",
@@ -125,10 +93,11 @@ const RegistrationForm = () => {
       }
     },
   });
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <div>
-        <label htmlFor="fullName">Full Name:</label>
+        <label htmlFor="fullName">Фио</label>
         <input
           id="fullName"
           name="fullName"
@@ -142,7 +111,7 @@ const RegistrationForm = () => {
         ) : null}
       </div>
       <div>
-        <label htmlFor="gender">Gender:</label>
+        <label htmlFor="gender">Пол</label>
         <select
           id="gender"
           name="gender"
@@ -150,15 +119,15 @@ const RegistrationForm = () => {
           onBlur={formik.handleBlur}
           value={formik.values.gender}
         >
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
+          <option value="Male">Мужчина</option>
+          <option value="Female">Женщина</option>
         </select>
         {formik.touched.gender && formik.errors.gender ? (
           <div>{formik.errors.gender}</div>
         ) : null}
       </div>
       <div>
-        <label htmlFor="phoneNumber">Phone Number:</label>
+        <label htmlFor="phoneNumber">Телефон</label>
         <input
           id="phoneNumber"
           name="phoneNumber"
@@ -192,12 +161,12 @@ const RegistrationForm = () => {
           name="address"
           onChange={(e) => {
             const selectedObjectId = e.target.value;
-            setSelectedAddress(selectedObjectId);
             formik.handleChange(e);
-            handleAddressChange(selectedObjectId);
+
+            handleAddressChange(selectedObjectId, 0);
           }}
           onBlur={formik.handleBlur}
-          value={selectedAddress || ""}
+          value={formik.values.address || ""}
         >
           <option value="" label="Select Address"></option>
           {addressFields.map((field, index) => (
@@ -210,82 +179,37 @@ const RegistrationForm = () => {
           <div>{formik.errors.address}</div>
         ) : null}
       </div>
-      {selectedAddress && (
-        <div>
-          <label htmlFor="subAddress">{subAddressType}</label>
-          <select
-            id="subAddress"
-            name="subAddress"
-            onChange={(e) => {
-              setSelectedSubAddress(e.target.value);
-              formik.handleChange(e);
-            }}
-            onBlur={formik.handleBlur}
-            value={selectedSubAddress || ""}
-          >
-            <option value="" label="выбрать"></option>
-            {subAddressFields.map((field, index) => (
-              <option key={index} value={field.objectId}>
-                {field.text}
-              </option>
-            ))}
-          </select>
-          {formik.touched.subAddress && formik.errors.subAddress ? (
-            <div>{formik.errors.subAddress}</div>
-          ) : null}
+
+      {addressChain.map((chain, chainIndex) => (
+        <div key={chainIndex}>
+          <label htmlFor={`level${chainIndex}`}>
+            {chain[0]?.objectLevelText}
+          </label>
+          {chain.length > 0 && (
+            <select
+              id={`level${chainIndex}`}
+              name={`level${chainIndex}`}
+              onChange={(e) => {
+                const selectedObjectId = e.target.value;
+                formik.handleChange(e);
+
+                handleAddressChange(selectedObjectId, chainIndex);
+              }}
+              onBlur={formik.handleBlur}
+              value={formik.values[`level${chainIndex}`] || ""}
+            >
+              {chainIndex === addressChain.length - 1 ? (
+                <option value="" label=""></option>
+              ) : null}
+              {chain.map((field, index) => (
+                <option key={index} value={field.objectId}>
+                  {field.text}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
-      )}
-      {selectedSubAddress && (
-        <div>
-          <label htmlFor="street">{streetType}</label>
-          <select
-            id="street"
-            name="street"
-            onChange={(e) => {
-              setSelectedStreet(e.target.value);
-              formik.handleChange(e);
-            }}
-            onBlur={formik.handleBlur}
-            value={selectedStreet || ""}
-          >
-            <option value="" label="выбрать"></option>
-            {streetFields.map((field, index) => (
-              <option key={index} value={field.objectId}>
-                {field.text}
-              </option>
-            ))}
-          </select>
-          {formik.touched.street && formik.errors.street ? (
-            <div>{formik.errors.street}</div>
-          ) : null}
-        </div>
-      )}
-      {selectedSubAddress && (
-        <div>
-          <label htmlFor="building">Дом:</label>
-          <select
-            id="building"
-            name="building"
-            onChange={(e) => {
-              setSelectedBuilding(e.target.value);
-              console.log(e.target.value);
-              formik.handleChange(e);
-            }}
-            onBlur={formik.handleBlur}
-            value={formik.values.building}
-          >
-            <option value="" label="выбрать"></option>
-            {buildingFields.map((field, index) => (
-              <option key={index} value={field.objectGuid}>
-                {field.text}
-              </option>
-            ))}
-          </select>
-          {formik.touched.building && formik.errors.building ? (
-            <div>{formik.errors.building}</div>
-          ) : null}
-        </div>
-      )}
+      ))}
       <div>
         <label htmlFor="email">Email:</label>
         <input
