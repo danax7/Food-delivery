@@ -9,6 +9,9 @@ export const Header = () => {
       <HeaderLogo />
       <LinksList />
       <Link to="" className={s.item}>
+        Зарегестрироваться
+      </Link>
+      <Link to={"/login"} className={s.item}>
         Войти
       </Link>
     </div>
