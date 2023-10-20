@@ -43,34 +43,42 @@ const LoginForm = () => {
     <div className={s.formWrapper}>
       <form onSubmit={formik.handleSubmit} className={s.form}>
         <h2>Авторизация</h2>
-        <div className={s.formItem}>
-          <label htmlFor="email">Email:</label>
+
+        <div className={s.inputGroup}>
           <input
+            className={s.inputGroup__input}
             type="email"
             id="email"
             name="email"
+            placeholder="&nbsp;"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.email}
           />
-          {formik.touched.email && formik.errors.email ? (
+          {/* {formik.touched.email && formik.errors.email ? (
             <div>{formik.errors.email}</div>
-          ) : null}
+          ) : null} */}
+          <label className={s.inputGroup__label} htmlFor="username">
+            Email
+          </label>
         </div>
-        <div className={s.formItem}>
-          <label htmlFor="password">Password:</label>
+        <div className={s.inputGroup}>
           <input
+            className={s.inputGroup__input}
             type="password"
             id="password"
             name="password"
+            placeholder="&nbsp;"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.password}
           />
-          {formik.touched.password && formik.errors.password ? (
+          {/* {formik.touched.password && formik.errors.password ? (
             <div>{formik.errors.password}</div>
-          ) : null}
+          ) : null} */}
+          <label className={s.inputGroup__label} htmlFor="password">
+            Пароль
+          </label>
         </div>
+
         <button type="submit">Login</button>
       </form>
     </div>

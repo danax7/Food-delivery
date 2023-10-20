@@ -1,5 +1,5 @@
-import { RootState } from "@/store/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "@/store/store";
 
 interface AuthState {
   token: string | null;
@@ -7,8 +7,8 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  token: null,
-  isAuthenticated: false,
+  token: localStorage.getItem("token"),
+  isAuthenticated: Boolean(localStorage.getItem("token")),
 };
 
 const authSlice = createSlice({
@@ -18,13 +18,16 @@ const authSlice = createSlice({
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
       state.isAuthenticated = true;
+      localStorage.setItem("token", action.payload);
     },
     clearToken: (state) => {
       state.token = null;
       state.isAuthenticated = false;
+      localStorage.removeItem("token");
     },
   },
 });
+
 export const selectIsAuthenticated = (state: RootState) =>
   state.auth.isAuthenticated;
 export const { setToken, clearToken } = authSlice.actions;
