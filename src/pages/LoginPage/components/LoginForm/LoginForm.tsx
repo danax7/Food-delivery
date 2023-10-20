@@ -2,12 +2,24 @@ import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { loginUser } from "@/modules/Auth/Model/thunk";
-import { AppDispatch } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import s from "./LoginForm.module.scss";
+import { selectIsAuthenticated } from "@/modules/Auth/Model/slice";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
+  const isAuthenticated = useSelector((state: RootState) =>
+    selectIsAuthenticated(state)
+  );
 
+  console.log("Is Authenticated:", isAuthenticated);
+
+  if (isAuthenticated) {
+    navigate("/profile");
+  }
   const formik = useFormik({
     initialValues: {
       email: "",

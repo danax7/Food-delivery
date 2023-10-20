@@ -39,7 +39,6 @@ export const logoutUser = createAsyncThunk(
       localStorage.removeItem("token");
       dispatch(clearToken());
     } catch (error) {
-      // Обработка ошибок
       console.error("Logout failed:", error);
       throw new Error("Logout failed");
     }

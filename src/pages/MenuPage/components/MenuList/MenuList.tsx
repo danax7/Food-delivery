@@ -10,7 +10,6 @@ const MenuList = () => {
   const dispatch: AppDispatch = useDispatch();
   const menu = useSelector((state: RootState) => state.menu);
   const location = useLocation();
-
   const getQueryParams = () => {
     const searchParams = new URLSearchParams(location.search);
     const categories = searchParams.getAll("categories");
