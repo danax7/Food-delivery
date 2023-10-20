@@ -13,7 +13,9 @@ export const loginUser = createAsyncThunk(
       );
       const token = response.data.token;
       localStorage.setItem("token", token);
-      console.log(response.data);
+      localStorage.setItem("email", data.email);
+      console.log("token", response.data);
+
       dispatch(setToken(token));
     } catch (error) {
       console.error("Login failed:", error);
@@ -28,19 +30,23 @@ export const logoutUser = createAsyncThunk(
     try {
       const response = await axios.post(
         "https://food-delivery.kreosoft.ru/api/account/logout",
-
+        {},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      console.log(response.data);
-      localStorage.removeItem("token");
+
+      localStorage.getItem("token");
+      console.log(response.data, "logout");
+
       dispatch(clearToken());
     } catch (error) {
       console.error("Logout failed:", error);
-      throw new Error("Logout failed");
+      if (error.response && error.response.status === 403) {
+        dispatch(clearToken());
+      }
     }
   }
 );

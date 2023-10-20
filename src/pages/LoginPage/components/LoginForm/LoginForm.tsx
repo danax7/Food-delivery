@@ -32,7 +32,6 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       try {
         await dispatch(loginUser(values));
-        console.log("User logged in successfully!");
       } catch (error) {
         console.error("Login failed:", error);
       }
@@ -86,3 +85,6 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+function useEfffect() {
+  throw new Error("Function not implemented.");
+}
