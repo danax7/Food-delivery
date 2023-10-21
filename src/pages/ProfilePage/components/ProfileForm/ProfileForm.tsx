@@ -5,6 +5,11 @@ import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 import s from "./ProfileForm.module.scss";
 import InputMask from "react-input-mask";
+import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { clearToken } from "@/modules/Auth/Model/slice";
+
 interface UserData {
   fullName: string;
   birthDate: string;
@@ -15,6 +20,9 @@ interface UserData {
   id: string;
 }
 const RegistrationForm = () => {
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+
   const [addressFields, setAddressFields] = useState<any[]>([]);
   const [addressChain, setAddressChain] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -38,7 +46,7 @@ const RegistrationForm = () => {
       password: "",
       email: "",
       phoneNumber: `${userData?.phoneNumber}`,
-      dob: userData?.birthDate ? new Date(userData.birthDate) : null,
+      dob: userData?.birthDate ? userData?.birthDate.split("T")[0] : null,
 
       address: "",
       city: "",
@@ -55,7 +63,7 @@ const RegistrationForm = () => {
       try {
         const updatedData = {
           fullName: values.fullName,
-          birthDate: values.dob ? values.dob.toISOString() : null,
+          birthDate: new Date(selectedDate!).toISOString(),
           gender: values.gender,
           addressId: GUID,
           phoneNumber: values.phoneNumber,
@@ -82,6 +90,7 @@ const RegistrationForm = () => {
         );
         setUserData(response.data);
         const formattedDate = response.data.birthDate.split("T")[0];
+
         console.log(userData);
         formik.setValues({
           fullName: response.data.fullName,
@@ -98,6 +107,13 @@ const RegistrationForm = () => {
         setprofileAdressGUID(response.data.address);
       } catch (error) {
         console.error("Failed to fetch user data:", error);
+        if (
+          error.response &&
+          (error.response.status === 401 || error.response.status === 403)
+        ) {
+          dispatch(clearToken());
+          navigate("/login");
+        }
       }
     };
 
@@ -317,3 +333,6 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
+function dispatch(arg0: { payload: undefined; type: "auth/clearToken" }) {
+  throw new Error("Function not implemented.");
+}
