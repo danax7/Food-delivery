@@ -45,9 +45,8 @@ export const logoutUser = createAsyncThunk(
     } catch (error) {
       console.error("Logout failed:", error);
       if (
-        error.response &&
-        error.response.status === 403 &&
-        error.response.data === 401
+        (error.response && error.response.status === 403) ||
+        (error.response && error.response.status === 401)
       ) {
         dispatch(clearToken());
       }
