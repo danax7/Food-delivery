@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchDish,
@@ -11,7 +11,7 @@ import { AppDispatch } from "@/store/store";
 import { IDish } from "@/modules/DishInfo/Model/types";
 import DishInfo from "../components/DishInfo/DishInfo";
 
-const DishPage: React.FC = () => {
+const DishPage = () => {
   const { dishId } = useParams<{ dishId: string }>();
   const dispatch: AppDispatch = useDispatch();
 
