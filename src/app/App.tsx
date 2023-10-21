@@ -2,17 +2,17 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { MenuPage } from "@/pages/MenuPage/ui/MenuPage";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
+import Header from "@/modules/Header/ui/Header";
 import DishPage from "@/pages/DishPage/ui/DishPage";
-import RegistrationPage from "@/pages/RegistrationPage/ui/RegistrationPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Provider store={store}>
+        <Header />
         <Routes>
           <Route path="" element={<MenuPage />} />
           <Route path="/item/:dishId" element={<DishPage />} />
-          <Route path="/registration/" element={<RegistrationPage />} />
         </Routes>
       </Provider>
     </BrowserRouter>

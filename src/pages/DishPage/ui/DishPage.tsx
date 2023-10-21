@@ -8,7 +8,6 @@ import {
 } from "@/modules/DishInfo/Model/slice";
 import { useParams } from "react-router-dom";
 import { AppDispatch } from "@/store/store";
-import { Header } from "@/modules/Header/ui/Header";
 import { IDish } from "@/modules/DishInfo/Model/types";
 import DishInfo from "../components/DishInfo/DishInfo";
 
@@ -38,7 +37,6 @@ const DishPage: React.FC = () => {
 
   return (
     <>
-      <Header />
       <DishInfo dish={dish} />
     </>
   );
