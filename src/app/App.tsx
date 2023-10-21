@@ -5,6 +5,8 @@ import { store } from "@/store/store";
 import DishPage from "@/pages/DishPage/ui/DishPage";
 import ProfilePage from "@/pages/ProfilePage/ui/ProfilePage";
 import { Header } from "@/modules/Header/ui/Header";
+import LoginPage from "@/pages/LoginPage/ui/LoginPage";
+import RegistrationPage from "@/pages/RegistrationPage/ui/RegistrationPage";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
           <Route path="" element={<MenuPage />} />
           <Route path="/item/:dishId" element={<DishPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/registration/" element={<RegistrationPage />} />
+          <Route path="/login/" element={<LoginPage />} />
         </Routes>
       </Provider>
     </BrowserRouter>
