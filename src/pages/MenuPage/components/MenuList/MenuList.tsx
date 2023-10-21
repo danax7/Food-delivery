@@ -19,7 +19,7 @@ const MenuList = () => {
     const page = searchParams.get("page");
     return { categories, vegetarian, sorting, page };
   };
-  //http://localhost:5173/?categories=Wok&categories=Pizza&vegetarian=false&sorting=PriceAsc&page=1
+  //http://localhost:5173/?categories=Pizza&vegetarian=false&sorting=PriceAsc&page=1
   useEffect(() => {
     const { categories, vegetarian, sorting, page } = getQueryParams();
     const defaultCategories =

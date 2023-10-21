@@ -8,7 +8,7 @@ export const Header = () => {
     <div className={s.header}>
       <HeaderLogo />
       <LinksList />
-      <Link to="" className={s.item}>
+      <Link to="/registration/" className={s.item}>
         Войти
       </Link>
     </div>
