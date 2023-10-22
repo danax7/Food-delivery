@@ -20,7 +20,6 @@ export const Header = () => {
       <HeaderLogo />
       <LinksList />
 
-      {/* Разрешенный конфликт: */}
       {!isAuthenticated && (
         <div>
           <Link to="/registration/" className={s.item}>
@@ -34,7 +33,7 @@ export const Header = () => {
 
       {isAuthenticated && (
         <div className={s.userProfile}>
-          <span className={s.email}>{localStorage.getItem("email")}</span>
+          <p className={s.email}>{localStorage.getItem("email")}</p>
           <button onClick={handleLogout} className={s.logoutButton}>
             Выйти
           </button>
