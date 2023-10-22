@@ -4,7 +4,7 @@ import { fetchMenu } from "@/modules/MenuList/Model/slice";
 import { AppDispatch, RootState } from "@/store/store";
 import MenuItemCard from "../MenuItemCard/MenuItemCard";
 import s from "./MenuList.module.scss";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const MenuList = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -14,6 +14,7 @@ const MenuList = () => {
   const [vegetarian, setVegetarian] = useState<boolean | null>(null);
   const [sorting, setSorting] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
+  const [params, setParams] = useSearchParams();
 
   const getQueryParams = () => {
     const searchParams = new URLSearchParams(location.search);
@@ -50,90 +51,9 @@ const MenuList = () => {
     );
   }, [dispatch, location]);
 
-  const updateQueryParams = () => {
-    const searchParams = new URLSearchParams();
-
-    if (categories.length > 0) {
-      categories.forEach((category) =>
-        searchParams.append("categories", category)
-      );
-    }
-
-    if (vegetarian !== null) {
-      searchParams.set("vegetarian", vegetarian.toString());
-    }
-
-    if (sorting.length > 0) {
-      sorting.forEach((sort) => searchParams.append("sorting", sort));
-    }
-
-    if (page > 1) {
-      searchParams.set("page", page.toString());
-    }
-
-    const queryParamsString = searchParams.toString();
-
-    if (queryParamsString.length > 0) {
-      return `?${queryParamsString}`;
-    }
-
-    return "";
-  };
-
-  const handleCategoriesChange = (selectedCategories: string[]) => {
-    setCategories(selectedCategories);
-    const queryParams = updateQueryParams();
-    dispatch(
-      fetchMenu({
-        categories: selectedCategories.join(","),
-        vegetarian,
-        sorting: sorting.join(","),
-        page,
-      })
-    );
-    window.history.pushState({}, "", `?${queryParams}`);
-  };
-
-  const handleVegetarianChange = (isChecked: boolean) => {
-    setVegetarian(isChecked);
-    const queryParams = updateQueryParams();
-    dispatch(
-      fetchMenu({
-        categories: categories.join(","),
-        vegetarian: isChecked,
-        sorting: sorting.join(","),
-        page,
-      })
-    );
-    window.history.pushState({}, "", `?${queryParams}`);
-  };
-
-  const handleSortingChange = (selectedSorting: string[]) => {
-    setSorting(selectedSorting);
-    const queryParams = updateQueryParams();
-    dispatch(
-      fetchMenu({
-        categories: categories.join(","),
-        vegetarian,
-        sorting: selectedSorting.join(","),
-        page,
-      })
-    );
-    window.history.pushState({}, "", `?${queryParams}`);
-  };
-
-  const handlePageChange = (selectedPage: number) => {
-    setPage(selectedPage);
-    const queryParams = updateQueryParams();
-    dispatch(
-      fetchMenu({
-        categories: categories.join(","),
-        vegetarian,
-        sorting: sorting.join(","),
-        page: selectedPage,
-      })
-    );
-    window.history.pushState({}, "", `?${queryParams}`);
+  const handleChange = (name: string, value: string) => {
+    params.set(name, value);
+    setParams(params);
   };
 
   if (menu.loading === "pending") {
@@ -150,11 +70,7 @@ const MenuList = () => {
         <label>Categories:</label>
         <select
           value={categories}
-          onChange={(e) =>
-            handleCategoriesChange(
-              Array.from(e.target.selectedOptions, (option) => option.value)
-            )
-          }
+          onChange={(e) => handleChange("categories", e.target.value)}
           multiple
         >
           <option value="Wok">Wok</option>
@@ -168,19 +84,20 @@ const MenuList = () => {
         <label>Vegetarian:</label>
         <input
           type="checkbox"
-          checked={vegetarian === true}
-          onChange={(e) => handleVegetarianChange(e.target.checked)}
+          checked={vegetarian === false}
+          onChange={(e) =>
+            handleChange(
+              "vegetarian",
+              e.target.value === "on" ? "false" : "true"
+            )
+          }
         />
       </div>
       <div className={s.Selector}>
         <label>Sorting:</label>
         <select
           value={sorting}
-          onChange={(e) =>
-            handleSortingChange(
-              Array.from(e.target.selectedOptions, (option) => option.value)
-            )
-          }
+          onChange={(e) => handleChange("sorting", e.target.value)}
           multiple
         >
           <option value="NameAsc">NameAsc</option>
