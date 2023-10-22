@@ -7,8 +7,8 @@ import s from "./ProfileForm.module.scss";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "@/store/store";
-import { useDispatch } from "react-redux";
-import { clearToken } from "@/modules/Auth/Model/slice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearToken, selectIsAuthenticated } from "@/modules/Auth/Model/slice";
 import AddressForm from "../AddressForm/AddressForm";
 
 interface UserData {
@@ -23,12 +23,19 @@ interface UserData {
 const ProfileForm = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const [GUID, setGUID] = useState("");
   const [addressFields, setAddressFields] = useState<any[]>([]);
   const [addressChain, setAddressChain] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [profileAdressGUID, setprofileAdressGUID] = useState<string>("");
   const [userData, setUserData] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [isAuthenticated, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -37,7 +44,9 @@ const ProfileForm = () => {
       password: "",
       email: "",
       phoneNumber: `${userData?.phoneNumber}`,
-      dob: userData?.birthDate ? userData?.birthDate.split("T")[0] : null,
+      dob: selectedDate
+        ? new Date(selectedDate!).toISOString()
+        : userData?.birthDate,
 
       address: "",
       city: "",
@@ -54,7 +63,10 @@ const ProfileForm = () => {
       try {
         const updatedData = {
           fullName: values.fullName,
-          birthDate: new Date(selectedDate!).toISOString(),
+          birthDate: selectedDate
+            ? new Date(selectedDate!).toISOString()
+            : userData?.birthDate,
+
           gender: values.gender,
           addressId: GUID.length > 0 ? GUID : profileAdressGUID,
           phoneNumber: values.phoneNumber,
