@@ -23,22 +23,12 @@ interface UserData {
 const ProfileForm = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-
+  const [GUID, setGUID] = useState("");
   const [addressFields, setAddressFields] = useState<any[]>([]);
   const [addressChain, setAddressChain] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [GUID, setGUID] = useState<string>("");
   const [profileAdressGUID, setprofileAdressGUID] = useState<string>("");
-  const [objectIdd, setObjectIdd] = useState<string>("");
   const [userData, setUserData] = useState<UserData | null>(null);
-  const fetchData = async (url, callback) => {
-    try {
-      const response = await axios.get(url);
-      callback(response.data);
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -123,7 +113,7 @@ const ProfileForm = () => {
 
   const updateProfile = async (updatedData) => {
     try {
-      const response = await axios.put(
+      await axios.put(
         "https://food-delivery.kreosoft.ru/api/account/profile",
         updatedData,
         {
@@ -132,7 +122,7 @@ const ProfileForm = () => {
           },
         }
       );
-      console.log("Profile updated successfully:", response.data);
+      console.log("Profile updated successfully:", updatedData);
     } catch (error) {
       console.error("Failed to update profile:", error);
     }
@@ -165,39 +155,9 @@ const ProfileForm = () => {
     console.log(fullAddress);
     return fullAddress;
   };
-  useEffect(() => {
-    fetchData(
-      "https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=0",
-      setAddressFields
-    );
-  }, []);
-
-  useEffect(() => {
-    if (
-      addressChain.length > 2 &&
-      addressChain[addressChain.length - 1].length === 0
-    ) {
-      const previousChain = addressChain[addressChain.length - 2];
-
-      const guid = previousChain.find((item) => item.objectId == objectIdd!)!
-        .objectGuid!;
-      console.log("guid", guid);
-      setGUID(guid);
-    }
-  }, [addressChain, objectIdd]);
-
-  const handleAddressChange = async (objectId: string, chainIndex: number) => {
-    const response = await axios.get(
-      `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}`
-    );
-
-    if (response.data) {
-      setAddressChain((prevChain) => prevChain.slice(0, chainIndex + 1));
-      setAddressChain((prevChain) => [...prevChain, response.data]);
-      setObjectIdd(objectId);
-    }
+  const handleGUIDChange = (guid: string) => {
+    setGUID(guid);
   };
-
   return (
     <form onSubmit={formik.handleSubmit} className={s.form}>
       <h2>Профиль</h2>
@@ -269,8 +229,8 @@ const ProfileForm = () => {
         <AddressForm
           formik={formik}
           addressFields={addressFields}
-          handleAddressChange={handleAddressChange}
           addressChain={addressChain}
+          onGUIDChange={handleGUIDChange}
         />
 
         <button type="submit">Обновить</button>
