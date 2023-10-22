@@ -81,47 +81,47 @@ const ProfileForm = () => {
   });
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await axios.get(
-          "https://food-delivery.kreosoft.ru/api/account/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setUserData(response.data);
-        const formattedDate = response.data.birthDate.split("T")[0];
-
-        console.log(userData);
-        formik.setValues({
-          fullName: response.data.fullName,
-          gender: response.data.gender,
-          phoneNumber: response.data.phoneNumber,
-          dob: formattedDate,
-          email: response.data.email,
-          address: response.data.address,
-          password: "",
-          city: "",
-          postalCode: "",
-          building: "",
-        });
-        setprofileAdressGUID(response.data.address);
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-        if (
-          error.response &&
-          (error.response.status === 401 || error.response.status === 403)
-        ) {
-          dispatch(clearToken());
-          navigate("/login");
-        }
-      }
-    };
-
     fetchUserProfile();
   }, []);
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(
+        "https://food-delivery.kreosoft.ru/api/account/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setUserData(response.data);
+      const formattedDate = response.data.birthDate.split("T")[0];
+
+      console.log(userData);
+      formik.setValues({
+        fullName: response.data.fullName,
+        gender: response.data.gender,
+        phoneNumber: response.data.phoneNumber,
+        dob: formattedDate,
+        email: response.data.email,
+        address: response.data.address,
+        password: "",
+        city: "",
+        postalCode: "",
+        building: "",
+      });
+      setprofileAdressGUID(response.data.address);
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        dispatch(clearToken());
+        navigate("/login");
+      }
+    }
+  };
 
   const updateProfile = async (updatedData) => {
     try {
@@ -139,6 +139,7 @@ const ProfileForm = () => {
       console.error("Failed to update profile:", error);
     }
   };
+
   useEffect(() => {
     const fetchAddressChain = async () => {
       try {
@@ -167,9 +168,11 @@ const ProfileForm = () => {
     console.log(fullAddress);
     return fullAddress;
   };
+
   const handleGUIDChange = (guid: string) => {
     setGUID(guid);
   };
+
   return (
     <form onSubmit={formik.handleSubmit} className={s.form}>
       <h2>Профиль</h2>

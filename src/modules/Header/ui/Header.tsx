@@ -33,7 +33,9 @@ export const Header = () => {
 
       {isAuthenticated && (
         <div className={s.userProfile}>
-          <p className={s.email}>{localStorage.getItem("email")}</p>
+          <Link to="/profile" className={s.item}>
+            <p className={s.email}>{localStorage.getItem("email")}</p>
+          </Link>
           <button onClick={handleLogout} className={s.logoutButton}>
             Выйти
           </button>
