@@ -28,7 +28,8 @@ const MenuList = () => {
   useEffect(() => {
     const { categories, vegetarian, sorting, page } = getQueryParams();
     setCategories(categories !== null ? categories : []);
-    setVegetarian(vegetarian !== null ? vegetarian === "false" : null);
+    setVegetarian(vegetarian !== null ? vegetarian === "true" : false);
+
     setSorting(sorting !== null ? sorting : null);
     setPage(page !== null ? parseInt(page) : 1);
 
@@ -51,8 +52,8 @@ const MenuList = () => {
     );
   }, [dispatch, location]);
 
-  const handleChange = (name: string, value: string) => {
-    params.set(name, value);
+  const handleChange = (name: string, value: string | boolean) => {
+    params.set(name, value.toString());
     setParams(params);
   };
 
@@ -84,13 +85,8 @@ const MenuList = () => {
         <label>Vegetarian:</label>
         <input
           type="checkbox"
-          checked={vegetarian === false}
-          onChange={(e) =>
-            handleChange(
-              "vegetarian",
-              e.target.value === "on" ? "false" : "true"
-            )
-          }
+          checked={vegetarian}
+          onChange={(e) => handleChange("vegetarian", e.target.checked)}
         />
       </div>
       <div className={s.Selector}>
