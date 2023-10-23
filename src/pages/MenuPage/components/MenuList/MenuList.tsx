@@ -14,6 +14,7 @@ const MenuList = () => {
   const [vegetarian, setVegetarian] = useState<boolean | null>(null);
   const [sorting, setSorting] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
+
   const [params, setParams] = useSearchParams();
 
   const getQueryParams = () => {
@@ -35,7 +36,7 @@ const MenuList = () => {
     const paramsToRequest = {};
 
     if (categories.length > 0) {
-      paramsToRequest.categories = categories.join(",");
+      paramsToRequest.categories = categories.join("&categories=");
     }
 
     if (vegetarian !== null) {
@@ -56,6 +57,9 @@ const MenuList = () => {
   }, [dispatch, location]);
 
   const handleChange = (name: string, value: string | boolean) => {
+    if (name === "categories" || name === "vegetarian") {
+      params.delete("page");
+    }
     if (value === "") {
       params.delete(name);
     } else {
@@ -71,69 +75,100 @@ const MenuList = () => {
   if (menu.loading === "failed") {
     return <div>Error: {menu.error}</div>;
   }
+  const generatePageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = page - 1; i <= page + 1; i++) {
+      if (i > 0 && i <= menu.pagination.count) {
+        pageNumbers.push(i);
+      }
+    }
+    return pageNumbers;
+  };
 
   return (
-    <div className={s.MenuList}>
-      <div className={s.Selector}>
-        <label>Categories:</label>
-        <select
-          value={categories}
-          onChange={(e) => handleChange("categories", e.target.value)}
-          multiple
-        >
-          <option value="Wok">Wok</option>
-          <option value="Pizza">Pizza</option>
-          <option value="Soup">Soup</option>
-          <option value="Dessert">Dessert</option>
-          <option value="Drink">Drink</option>
-        </select>
-      </div>
+    <div>
+      <div className={s.SelectorsBlock}>
+        <div className={s.Pagination}>
+          <button
+            onClick={() => handleChange("page", page > 1 ? page - 1 : 1)}
+            disabled={page <= 1}
+          >
+            Предыдущая
+          </button>
+          {generatePageNumbers().map((pageNumber) => (
+            <button
+              key={pageNumber}
+              onClick={() => handleChange("page", pageNumber)}
+            >
+              {pageNumber}
+            </button>
+          ))}
+          <button
+            onClick={() =>
+              handleChange(
+                "page",
+                page < menu.pagination.count ? page + 1 : page
+              )
+            }
+            disabled={page >= menu.pagination.count}
+          >
+            Следующая
+          </button>
+        </div>
+        <div className={s.Selector}>
+          <label>Categories:</label>
+          <select
+            value={categories}
+            onChange={(e) => handleChange("categories", e.target.value)}
+            multiple
+          >
+            <option value="Wok">Wok</option>
+            <option value="Pizza">Pizza</option>
+            <option value="Soup">Soup</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Drink">Drink</option>
+          </select>
+        </div>
 
-      <div className={s.Selector}>
-        <label>Vegetarian:</label>
-        <input
-          type="checkbox"
-          checked={vegetarian}
-          onChange={(e) => handleChange("vegetarian", e.target.checked)}
-        />
+        <div className={s.Selector}>
+          <label>Vegetarian:</label>
+          <input
+            type="checkbox"
+            checked={vegetarian}
+            onChange={(e) => handleChange("vegetarian", e.target.checked)}
+          />
+        </div>
+        <div className={s.Selector}>
+          <label>Sorting:</label>
+          <select
+            value={sorting}
+            onChange={(e) => handleChange("sorting", e.target.value)}
+            multiple
+          >
+            <option value="NameAsc">NameAsc</option>
+            <option value="NameDesc">NameDesc</option>
+            <option value="PriceAsc">PriceAsc</option>
+            <option value="PriceDesc">PriceDesc</option>
+            <option value="RatingAsc">RatingAsc</option>
+            <option value="RatingDesc">RatingDesc</option>
+          </select>
+        </div>
       </div>
-      <div className={s.Selector}>
-        <label>Sorting:</label>
-        <select
-          value={sorting}
-          onChange={(e) => handleChange("sorting", e.target.value)}
-          multiple
-        >
-          <option value="NameAsc">NameAsc</option>
-          <option value="NameDesc">NameDesc</option>
-          <option value="PriceAsc">PriceAsc</option>
-          <option value="PriceDesc">PriceDesc</option>
-          <option value="RatingAsc">RatingAsc</option>
-          <option value="RatingDesc">RatingDesc</option>
-        </select>
+      <div className={s.MenuList}>
+        {menu.dishes.map((dish) => (
+          <MenuItemCard
+            key={dish.id}
+            id={dish.id}
+            name={dish.name}
+            description={dish.description}
+            price={dish.price}
+            image={dish.image}
+            vegetarian={dish.vegetarian}
+            rating={dish.rating}
+            category={dish.category}
+          />
+        ))}
       </div>
-      <div className={s.Selector}>
-        <label>Page:</label>
-        <input
-          type="number"
-          value={page}
-          onChange={(e) => handleChange("page", e.target.value)}
-        />
-      </div>
-
-      {menu.dishes.map((dish) => (
-        <MenuItemCard
-          key={dish.id}
-          id={dish.id}
-          name={dish.name}
-          description={dish.description}
-          price={dish.price}
-          image={dish.image}
-          vegetarian={dish.vegetarian}
-          rating={dish.rating}
-          category={dish.category}
-        />
-      ))}
     </div>
   );
 };

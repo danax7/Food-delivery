@@ -13,4 +13,9 @@ export interface MenuState {
   dishes: Dish[];
   loading: "idle" | "pending" | "succeeded" | "failed";
   error: string | null;
+  pagination: {
+    size: number;
+    count: number;
+    current: number;
+  };
 }

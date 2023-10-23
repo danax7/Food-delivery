@@ -10,14 +10,15 @@ interface FetchMenuParams {
   sorting: string;
 }
 
-export const fetchMenu = createAsyncThunk<MenuState["dishes"], FetchMenuParams>(
+export const fetchMenu = createAsyncThunk<MenuState, FetchMenuParams>(
   "menu/fetchMenu",
   async (params) => {
+    console.log(params);
     const response = await axios.get(
       "https://food-delivery.kreosoft.ru/api/dish",
       { params }
     );
-    return response.data.dishes;
+    return response.data;
   }
 );
 
@@ -32,7 +33,9 @@ const menuSlice = createSlice({
       })
       .addCase(fetchMenu.fulfilled, (state, action) => {
         state.loading = "succeeded";
-        state.dishes = action.payload;
+        state.dishes = action.payload.dishes;
+
+        state.pagination = action.payload.pagination;
       })
       .addCase(fetchMenu.rejected, (state, action) => {
         state.loading = "failed";
