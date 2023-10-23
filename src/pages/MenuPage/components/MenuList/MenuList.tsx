@@ -28,32 +28,39 @@ const MenuList = () => {
   useEffect(() => {
     const { categories, vegetarian, sorting, page } = getQueryParams();
     setCategories(categories !== null ? categories : []);
-    setVegetarian(vegetarian !== null ? vegetarian === "true" : false);
-
+    setVegetarian(vegetarian !== null ? vegetarian === "true" : null);
     setSorting(sorting !== null ? sorting : null);
     setPage(page !== null ? parseInt(page) : 1);
 
-    const categoriesString = categories.join(",");
-    const sortingString = sorting !== null ? sorting : "";
+    const paramsToRequest = {};
 
-    console.log("Sending request with parameters:");
-    console.log("Categories:", categoriesString);
-    console.log("Vegetarian:", vegetarian);
-    console.log("Sorting:", sortingString);
-    console.log("Page:", page);
+    if (categories.length > 0) {
+      paramsToRequest.categories = categories.join(",");
+    }
 
-    dispatch(
-      fetchMenu({
-        categories: categoriesString,
-        vegetarian: vegetarian,
-        sorting: sortingString,
-        page: page !== null ? parseInt(page) : 1,
-      })
-    );
+    if (vegetarian !== null) {
+      paramsToRequest.vegetarian = vegetarian;
+    }
+
+    if (sorting) {
+      paramsToRequest.sorting = sorting;
+    }
+
+    if (page) {
+      paramsToRequest.page = page;
+    }
+
+    console.log("Sending request with parameters:", paramsToRequest);
+
+    dispatch(fetchMenu(paramsToRequest));
   }, [dispatch, location]);
 
   const handleChange = (name: string, value: string | boolean) => {
-    params.set(name, value.toString());
+    if (value === "") {
+      params.delete(name);
+    } else {
+      params.set(name, value.toString());
+    }
     setParams(params);
   };
 
@@ -81,6 +88,7 @@ const MenuList = () => {
           <option value="Drink">Drink</option>
         </select>
       </div>
+
       <div className={s.Selector}>
         <label>Vegetarian:</label>
         <input
@@ -109,7 +117,7 @@ const MenuList = () => {
         <input
           type="number"
           value={page}
-          onChange={(e) => handlePageChange(parseInt(e.target.value))}
+          onChange={(e) => handleChange("page", e.target.value)}
         />
       </div>
 
