@@ -10,7 +10,3 @@ export interface CartItem {
 export interface CartState {
   items: CartItem[];
 }
-
-export interface RootState {
-  cart: CartState;
-}

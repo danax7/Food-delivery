@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 import s from "./MenuItemCard.module.scss";
 import vegetarianIcon from "@/assets/img/Leaf_icon.svg";
 import { useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from "@/modules/UserCart/Model/slice";
+import { addToCart, removeFromCart } from "@/modules/UserCart/Model/thunk";
+import { AppDispatch } from "@/store/store";
+
 interface IMenuItemCardProps {
   id: string;
   name: string;
@@ -25,7 +27,8 @@ const MenuItemCard = ({
   category,
 }: IMenuItemCardProps) => {
   //   console.log(id);
-  const dispatch = useDispatch();
+
+  const dispatch: AppDispatch = useDispatch();
 
   const handleAddToCart = () => {
     dispatch(addToCart(id));
