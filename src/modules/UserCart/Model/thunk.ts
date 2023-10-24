@@ -9,7 +9,7 @@ export const fetchCart = createAsyncThunk<CartItem[]>(
   "cart/fetchCart",
   async (_, { getState }) => {
     const token = (getState() as RootState).auth.token;
-    const response = await axios.get<CartItem[]>(`${BASE_URL}/basket`, {
+    const response = await axios.get<CartItem[]>(`${BASE_URL}/api/basket`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -34,14 +34,17 @@ export const addToCart = createAsyncThunk<void, string>(
   }
 );
 
-export const removeFromCart = createAsyncThunk<void, string>(
-  "cart/removeFromCart",
-  async (dishId, { getState }) => {
-    const token = (getState() as RootState).auth.token;
-    await axios.delete(`${BASE_URL}/api/basket/dish/${dishId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-);
+export const removeFromCart = createAsyncThunk<
+  void,
+  { dishId: string; increase: boolean }
+>("cart/removeFromCart", async ({ dishId, increase }, { getState }) => {
+  const token = (getState() as RootState).auth.token;
+  await axios.delete(`${BASE_URL}/api/basket/dish/${dishId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      increase: increase.toString(),
+    },
+  });
+});

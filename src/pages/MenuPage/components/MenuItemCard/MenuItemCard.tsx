@@ -1,9 +1,15 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import s from "./MenuItemCard.module.scss";
 import vegetarianIcon from "@/assets/img/Leaf_icon.svg";
-import { useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from "@/modules/UserCart/Model/thunk";
-import { AppDispatch } from "@/store/store";
+import { selectCartItems } from "@/modules/UserCart/Model/slice";
+import {
+  addToCart,
+  fetchCart,
+  removeFromCart,
+} from "@/modules/UserCart/Model/thunk";
+import { AppDispatch, RootState } from "@/store/store";
 
 interface IMenuItemCardProps {
   id: string;
@@ -26,16 +32,19 @@ const MenuItemCard = ({
   rating,
   category,
 }: IMenuItemCardProps) => {
-  //   console.log(id);
-
   const dispatch: AppDispatch = useDispatch();
-
+  const cartItems = useSelector((state: RootState) => selectCartItems(state));
+  const cartItem = cartItems.find((item) => item.id === id);
+  const quantityInCart = cartItem ? cartItem.amount : 0;
+  console.log("quantityInCart", quantityInCart);
   const handleAddToCart = () => {
     dispatch(addToCart(id));
+    dispatch(fetchCart());
   };
 
   const handleRemoveFromCart = () => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCart({ dishId: id, increase: true }));
+    dispatch(fetchCart());
   };
 
   return (
@@ -57,10 +66,18 @@ const MenuItemCard = ({
         </div>
         <div className={s.priceBlock}>
           <p> {price}₽</p>
-          <button className={s.addToCart}>В корзину</button>
+          {quantityInCart > 0 ? (
+            <>
+              <p>Quantity in Cart: {quantityInCart}</p>
+              <button onClick={handleAddToCart}>+</button>
+              <button onClick={handleRemoveFromCart}>-</button>
+            </>
+          ) : (
+            <button className={s.addToCart} onClick={handleAddToCart}>
+              В корзину
+            </button>
+          )}
         </div>
-        <button onClick={handleAddToCart}>Add to Cart</button>
-        <button onClick={handleRemoveFromCart}>Remove from Cart</button>
       </div>
     </div>
   );

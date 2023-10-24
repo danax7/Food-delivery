@@ -15,7 +15,7 @@ export const fetchMenu = createAsyncThunk<MenuState, FetchMenuParams>(
   async (params) => {
     console.log(params);
     const response = await axios.get(
-      `https://food-delivery.kreosoft.ru/api/dish `,
+      "https://food-delivery.kreosoft.ru/api/dish",
       { params }
     );
     return response.data;
