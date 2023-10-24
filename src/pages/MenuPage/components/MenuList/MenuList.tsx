@@ -88,50 +88,22 @@ const MenuList = () => {
   return (
     <div>
       <div className={s.SelectorsBlock}>
-        <div className={s.Pagination}>
-          <button
-            onClick={() => handleChange("page", page > 1 ? page - 1 : 1)}
-            disabled={page <= 1}
-          >
-            Предыдущая
-          </button>
-          {generatePageNumbers().map((pageNumber) => (
-            <button
-              key={pageNumber}
-              onClick={() => handleChange("page", pageNumber)}
-            >
-              {pageNumber}
-            </button>
-          ))}
-          <button
-            onClick={() =>
-              handleChange(
-                "page",
-                page < menu.pagination.count ? page + 1 : page
-              )
-            }
-            disabled={page >= menu.pagination.count}
-          >
-            Следующая
-          </button>
-        </div>
         <div className={s.Selector}>
-          <label>Categories:</label>
+          <label>Категории:</label>
           <select
             value={categories}
             onChange={(e) => handleChange("categories", e.target.value)}
-            multiple
           >
-            <option value="Wok">Wok</option>
-            <option value="Pizza">Pizza</option>
-            <option value="Soup">Soup</option>
-            <option value="Dessert">Dessert</option>
-            <option value="Drink">Drink</option>
+            <option value="Wok">Воки</option>
+            <option value="Pizza">Пицца</option>
+            <option value="Soup">Супы</option>
+            <option value="Dessert">Десерты</option>
+            <option value="Drink">Напитки</option>
           </select>
         </div>
 
         <div className={s.Selector}>
-          <label>Vegetarian:</label>
+          <label>Вегетерианское:</label>
           <input
             type="checkbox"
             checked={vegetarian}
@@ -139,18 +111,17 @@ const MenuList = () => {
           />
         </div>
         <div className={s.Selector}>
-          <label>Sorting:</label>
+          <label>Сортировка:</label>
           <select
             value={sorting}
             onChange={(e) => handleChange("sorting", e.target.value)}
-            multiple
           >
-            <option value="NameAsc">NameAsc</option>
-            <option value="NameDesc">NameDesc</option>
-            <option value="PriceAsc">PriceAsc</option>
-            <option value="PriceDesc">PriceDesc</option>
-            <option value="RatingAsc">RatingAsc</option>
-            <option value="RatingDesc">RatingDesc</option>
+            <option value="NameAsc">А-Я</option>
+            <option value="NameDesc">Я-А</option>
+            <option value="PriceAsc">Сначала дешевле</option>
+            <option value="PriceDesc">Сначала дороже</option>
+            <option value="RatingAsc">По возрастанию рейтинга</option>
+            <option value="RatingDesc">По убыванию рейтинга</option>
           </select>
         </div>
       </div>
@@ -168,6 +139,30 @@ const MenuList = () => {
             category={dish.category}
           />
         ))}
+      </div>
+      <div className={s.Pagination}>
+        <button
+          onClick={() => handleChange("page", page > 1 ? page - 1 : 1)}
+          disabled={page <= 1}
+        >
+          &lt;
+        </button>
+        {generatePageNumbers().map((pageNumber) => (
+          <button
+            key={pageNumber}
+            onClick={() => handleChange("page", pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        ))}
+        <button
+          onClick={() =>
+            handleChange("page", page < menu.pagination.count ? page + 1 : page)
+          }
+          disabled={page >= menu.pagination.count}
+        >
+          &gt;
+        </button>
       </div>
     </div>
   );

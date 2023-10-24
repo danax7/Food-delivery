@@ -12,4 +12,45 @@
 
   justify-content: center;
   align-items: center;
+  //  select {
+  //     display: flex;
+  //     overflow: auto;
+  //     height: 120px;
+  //     width: 100px;
+  //     border-radius: 10px;
+  //     option {
+  //       display: flex;
+
+  //       align-items: center;
+  //       justify-content: center;
+  //       border: 1px solid #2196f3;
+  //       height: 20px;
+  //     }
+  //   }
+  select {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.675em 0.5em 0.675em 1em;
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
+  }
+}
+
+.Pagination {
+  button {
+    border-radius: 0;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  display: flex;
+  margin: 22px;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
 }
