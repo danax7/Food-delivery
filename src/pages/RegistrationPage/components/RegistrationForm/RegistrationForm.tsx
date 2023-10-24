@@ -6,8 +6,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import s from "./RegistrationForm.module.scss";
 import InputMask from "react-input-mask";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
+  const navigate = useNavigate();
   const [addressFields, setAddressFields] = useState<any[]>([]);
   const [addressChain, setAddressChain] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -90,6 +92,7 @@ const RegistrationForm = () => {
           "https://food-delivery.kreosoft.ru/api/account/register",
           formattedData
         );
+        navigate("/profile");
         localStorage.setItem("token", response.data.token);
         console.log("Registration successful. Token:", response.data.token);
       } catch (error) {
