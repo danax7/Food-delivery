@@ -10,6 +10,7 @@ body {
   color: aliceblue;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: var(--backgorund);
+  scroll-behavior: smooth;
 }
 a:active,
 a:hover,

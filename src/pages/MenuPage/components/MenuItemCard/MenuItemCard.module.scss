@@ -21,6 +21,10 @@
     }
   }
   .info {
+    display: flex;
+    height: 46%;
+    flex-direction: column;
+    justify-content: space-between;
     padding-inline: 20px;
     .priceBlock {
       display: flex;
