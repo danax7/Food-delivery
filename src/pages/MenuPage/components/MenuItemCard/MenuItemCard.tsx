@@ -71,23 +71,26 @@ const MenuItemCard = ({
             value={rating}
             size={24}
             edit={false}
+            isHalf={true}
             activeColor="#ffd700"
           />
           <p>{description}</p>
         </div>
         <div className={s.priceBlock}>
           <p> {price}₽</p>
-          {quantityInCart > 0 ? (
-            <>
-              <button onClick={handleAddToCart}>+</button>
-              <p> {quantityInCart}</p>
-              <button onClick={handleRemoveFromCart}>-</button>
-            </>
-          ) : (
-            <button className={s.addToCart} onClick={handleAddToCart}>
-              В корзину
-            </button>
-          )}
+          <div className={s.cartActions}>
+            {quantityInCart > 0 ? (
+              <>
+                <button onClick={handleAddToCart}>+</button>
+                <p> {quantityInCart}</p>
+                <button onClick={handleRemoveFromCart}>-</button>
+              </>
+            ) : (
+              <button className={s.addToCart} onClick={handleAddToCart}>
+                В корзину
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

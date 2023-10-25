@@ -31,10 +31,37 @@
     .item {
       padding: 2vw;
     }
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
   }
 }
 
 .userProfile {
   display: flex;
   align-items: center;
+  .item {
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+}
+
+.HeaderLinksIcons {
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+  z-index: 9999;
+  position: fixed;
+  right: 0;
+  top: 17vh;
+  display: flex;
+  flex-direction: column;
+  a {
+    display: flex;
+    background-color: #686868;
+    height: 48px;
+    width: 48px;
+    justify-content: center;
+  }
 }
