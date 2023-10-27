@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import MenuItemCard from "../MenuItemCard/MenuItemCard";
 import s from "./MenuList.module.scss";
 import { useLocation, useSearchParams } from "react-router-dom";
+import { fetchCart } from "@/modules/UserCart/Model/thunk";
 
 const MenuList = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -56,6 +57,10 @@ const MenuList = () => {
     dispatch(fetchMenu(paramsToRequest));
   }, [dispatch, location]);
 
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [dispatch]);
+
   const handleChange = (name: string, value: string | boolean) => {
     if (name === "categories" || name === "vegetarian") {
       params.delete("page");
@@ -75,6 +80,7 @@ const MenuList = () => {
   if (menu.loading === "failed") {
     return <div>Error: {menu.error}</div>;
   }
+
   const generatePageNumbers = () => {
     const pageNumbers = [];
     for (let i = page - 1; i <= page + 1; i++) {

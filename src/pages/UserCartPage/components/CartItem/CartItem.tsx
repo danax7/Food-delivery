@@ -8,6 +8,7 @@ import {
 import { CartItem as CartItemType } from "@/modules/UserCart/Model/types";
 import s from "./CartItem.module.scss";
 import { AppDispatch } from "@/store/store";
+import trashIcon from "@/assets/img/trash_icon.svg";
 
 interface CartItemProps {
   item: CartItemType;
@@ -17,9 +18,6 @@ interface CartItemProps {
 const CartItem = ({ item, index }: CartItemProps) => {
   const dispatch: AppDispatch = useDispatch();
 
-  //   const handleRemoveFromCart = () => {
-  //     dispatch(removeFromCart({ dishId: item.id, increase: true }));
-  //   };
   const handleAddToCart = async () => {
     await dispatch(addToCart(item.id));
     await dispatch(fetchCart());
@@ -36,20 +34,31 @@ const CartItem = ({ item, index }: CartItemProps) => {
   };
   return (
     <div className={s.CartItem}>
-      <div>{index + 1}.</div>
-      <img src={item.image} alt={item.name} className={s.CartItemImage} />
-      <div className={s.CartItemDetails}>
-        <div className={s.InfoBlock}>
-          <h3>{item.name}</h3>
-          <p>Цена/шт {item.price}₽</p>
+      <div className={s.InfoBlock}>
+        <div>
+          <div>{index + 1}.</div>
+          <img src={item.image} alt={item.name} className={s.CartItemImage} />
         </div>
 
-        <div className={s.ButtonsBlock}>
-          <button onClick={handleRemoveFromCart}>-</button>
-          <p> {item.amount}</p>
-          <button onClick={handleAddToCart}>+</button>
+        <div className={s.Info}>
+          <h3>{item.name}</h3>
+          <p>Цена/шт: {item.price}₽</p>
         </div>
-        <button onClick={handleRemoveFromCartCompletely}>Удалить</button>
+      </div>
+
+      <div className={s.CartItemDetails}>
+        <div className={s.ButtonsBlock}>
+          <span onClick={handleRemoveFromCart}>-</span>
+          <p> {item.amount}</p>
+          <span onClick={handleAddToCart}>+</span>
+        </div>
+        <p>{item.totalPrice}₽</p>
+        <img
+          src={trashIcon}
+          alt="logo"
+          onClick={handleRemoveFromCartCompletely}
+          className={s.removeAll}
+        />
       </div>
     </div>
   );

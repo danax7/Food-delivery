@@ -33,9 +33,6 @@ const MenuItemCard = ({
   category,
 }: IMenuItemCardProps) => {
   const dispatch: AppDispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchCart());
-  }, [dispatch]);
 
   const cartItems = useSelector((state: RootState) => selectCartItems(state));
   const cartItem = cartItems.find((item) => item.id === id);
@@ -68,7 +65,7 @@ const MenuItemCard = ({
           <h2>{name}</h2>
           <ReactStars
             count={10}
-            value={rating}
+            value={rating + 2}
             size={24}
             edit={false}
             isHalf={true}
