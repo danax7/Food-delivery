@@ -19,8 +19,8 @@ const CartItemList = () => {
     <>
       <h2>Корзина</h2>
       <div className={s.CartItemList}>
-        {cartItems.map((item) => (
-          <CartItem key={item.id} item={item} />
+        {cartItems.map((item, index) => (
+          <CartItem key={item.id} item={item} index={index} />
         ))}
       </div>
     </>
