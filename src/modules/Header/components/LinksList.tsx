@@ -9,7 +9,7 @@ export const LinksList = () => {
       <Link to="" className={s.item}>
         Заказы
       </Link>
-      <Link to="" className={s.item}>
+      <Link to={"/cart/"} className={s.item}>
         Корзина
       </Link>
     </div>

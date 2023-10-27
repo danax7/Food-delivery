@@ -22,7 +22,7 @@ export const Header = () => {
       <LinksList />
       <HeaderLinksIcons />
       {!isAuthenticated && (
-        <div>
+        <div className={s.authButtons}>
           <Link to="/registration/" className={s.item}>
             Зарегистрироваться
           </Link>
