@@ -15,14 +15,23 @@ const PurchaseForm = () => {
       addressId: "",
     },
     validationSchema: Yup.object({
-      deliveryTime: Yup.string().required("Required"),
+      deliveryTime: Yup.date()
+        .required("Required")
+        .min(
+          new Date(Date.now() + 50 * 60 * 1000), // текущее время + 50 минут в миллисекундах
+          "Время доставки должно быть на 50 минут больше текущего времени"
+        ),
       addressId: Yup.string().required("Required"),
     }),
 
     onSubmit: async (values) => {
+      function formatDeliveryTime(date) {
+        const formattedDate = new Date(date).toISOString();
+        return formattedDate;
+      }
       try {
         const orderData = {
-          deliveryTime: values.deliveryTime,
+          deliveryTime: formatDeliveryTime(values.deliveryTime),
           addressId: GUID,
         };
 
