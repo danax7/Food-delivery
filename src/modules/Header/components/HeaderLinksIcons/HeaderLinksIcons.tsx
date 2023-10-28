@@ -18,7 +18,9 @@ const HeaderLinksIcons = () => {
       </Link>
       <Link to="/cart/" className={s.Cart}>
         <img src={cartLogo} alt="cart" />
-        <span className={s.cartCount}>{totalCartItems}</span>
+        {totalCartItems > 0 && (
+          <span className={s.cartCount}>{totalCartItems}</span>
+        )}
       </Link>
       <Link to="/orders/">
         <img src={orderIcon} alt="orders" />
