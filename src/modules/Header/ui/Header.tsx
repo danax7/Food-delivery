@@ -6,7 +6,7 @@ import { selectIsAuthenticated } from "@/modules/Auth/Model/slice";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "@/modules/Auth/Model/thunk";
 import { AppDispatch } from "@/store/store";
-import HeaderLinksIcons from "../components/HeaderLinksIcons";
+import HeaderLinksIcons from "../components/HeaderLinksIcons/HeaderLinksIcons";
 
 export const Header = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);

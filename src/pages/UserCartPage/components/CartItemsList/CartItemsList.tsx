@@ -13,7 +13,6 @@ const CartItemList = () => {
   }, [dispatch]);
 
   const cartItems = useSelector((state: RootState) => selectCartItems(state));
-  console.log(cartItems);
 
   return (
     <>

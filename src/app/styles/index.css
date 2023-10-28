@@ -6,6 +6,8 @@ body {
   --font-gray: #b3b3b3;
   --backgorund: #1a1a1a;
   --green: #34c759;
+  --dark-red: #7d2c1b;
+  --white: #fff;
   width: 100%;
   color: aliceblue;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

@@ -21,6 +21,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 18px;
+
     .item:focus {
       color: var(--green);
     }
@@ -34,6 +35,14 @@
     @media screen and (max-width: 768px) {
       display: none;
     }
+    span {
+      margin: 4px;
+      font-size: 18px;
+      background: var(--green);
+
+      border-radius: 5px;
+      color: whitesmoke;
+    }
   }
 }
 
@@ -45,26 +54,6 @@
     @media screen and (max-width: 768px) {
       display: none;
     }
-  }
-}
-
-.HeaderLinksIcons {
-  @media screen and (min-width: 768px) {
-    display: none;
-  }
-
-  z-index: 9999;
-  position: fixed;
-  right: 0;
-  top: 17vh;
-  display: flex;
-  flex-direction: column;
-  a {
-    display: flex;
-    background-color: #686868;
-    height: 48px;
-    width: 48px;
-    justify-content: center;
   }
 }
 
