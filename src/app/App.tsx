@@ -7,6 +7,7 @@ import ProfilePage from "@/pages/ProfilePage/ui/ProfilePage";
 import { Header } from "@/modules/Header/ui/Header";
 import LoginPage from "@/pages/LoginPage/ui/LoginPage";
 import RegistrationPage from "@/pages/RegistrationPage/ui/RegistrationPage";
+import PurchasePage from "@/pages/PurchasePage/ui/PurchasePage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/registration/" element={<RegistrationPage />} />
           <Route path="/login/" element={<LoginPage />} />
+          <Route path="/purchase" element={<PurchasePage />} />
         </Routes>
       </Provider>
     </BrowserRouter>
