@@ -71,7 +71,12 @@ const PurchaseForm = () => {
 
       <PurchaseAddressForm formik={formik} onGUIDChange={handleGUIDChange} />
       <PurchaseItemList />
-      <button onClick={() => console.log(formik.errors, GUID)} type="submit">
+      <button
+        onClick={() =>
+          console.log(formik.errors, GUID, formik.values.deliveryTime)
+        }
+        type="submit"
+      >
         Оформить заказ
       </button>
     </form>
