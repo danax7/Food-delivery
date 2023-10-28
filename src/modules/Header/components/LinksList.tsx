@@ -20,7 +20,9 @@ export const LinksList = () => {
       </Link>
       <Link to={"/cart/"} className={`${s.item} ${s.cart}`}>
         Корзина
-        <span className={s.cartCount}>{totalCartItems}</span>
+        {totalCartItems > 0 && (
+          <span className={s.cartCount}>{totalCartItems}</span>
+        )}
       </Link>
     </div>
   );
