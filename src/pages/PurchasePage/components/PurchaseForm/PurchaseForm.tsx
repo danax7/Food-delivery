@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import s from "./PurchaseForm.module.scss";
 import PurchaseAddressForm from "../PurchaseAddressForm/PurchaseAddressForm";
+import UserData from "../UserData/UserData";
+import PurchaseItemList from "../PurchaseItemsList/PurchaseItemList";
 const PurchaseForm = () => {
-  const [deliveryTime, setDeliveryTime] = useState("");
   const [GUID, setGUID] = useState("");
 
   const formik = useFormik({
@@ -17,6 +18,7 @@ const PurchaseForm = () => {
       deliveryTime: Yup.string().required("Required"),
       addressId: Yup.string().required("Required"),
     }),
+
     onSubmit: async (values) => {
       try {
         const orderData = {
@@ -26,7 +28,12 @@ const PurchaseForm = () => {
 
         await axios.post(
           "https://food-delivery.kreosoft.ru/api/order",
-          orderData
+          orderData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
         console.log("Order placed successfully:", orderData);
@@ -38,11 +45,14 @@ const PurchaseForm = () => {
 
   const handleGUIDChange = (guid: string) => {
     setGUID(guid);
+    formik.setFieldValue("addressId", guid);
     console.log("guid", guid);
   };
+
   return (
     <form onSubmit={formik.handleSubmit} className={s.form}>
       <div className={s.formWrapper}>
+        <UserData />
         <div className={s.formItem}>
           <label htmlFor="deliveryTime">Выберите время доставки:</label>
           <input
@@ -60,8 +70,10 @@ const PurchaseForm = () => {
       </div>
 
       <PurchaseAddressForm formik={formik} onGUIDChange={handleGUIDChange} />
-
-      <button type="submit">Оформить заказ</button>
+      <PurchaseItemList />
+      <button onClick={() => console.log(formik.errors, GUID)} type="submit">
+        Оформить заказ
+      </button>
     </form>
   );
 };
