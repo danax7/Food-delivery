@@ -1,0 +1,40 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Order } from "../../types";
+import OrderItem from "../OrderItem/OrderItem";
+
+const OrdersList = () => {
+  const [orders, setOrders] = useState<Order[]>([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get<Order[]>(
+          "https://food-delivery.kreosoft.ru/api/order",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log(response.data);
+        setOrders(response.data);
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  return (
+    <div>
+      <h2>Order History</h2>
+      {orders.map((order) => (
+        <OrderItem key={order.id} order={order} />
+      ))}
+    </div>
+  );
+};
+
+export default OrdersList;
