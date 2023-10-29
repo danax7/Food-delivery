@@ -2,6 +2,7 @@ import axios from "axios";
 import { Order } from "../../types";
 import s from "./OrderItem.module.scss";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 interface OrderItemProps {
   order: Order;
 }
@@ -31,10 +32,12 @@ const OrderItem = ({ order }: OrderItemProps) => {
   return (
     <div className={s.orderItem}>
       <div className={s.OrderInfo}>
-        <p className={s.orderTime}>Заказ от {orderTime}</p>
+        <Link to={`/order/${order.id}`}>
+          <p className={s.orderTime}>Заказ от {orderTime}</p>
+        </Link>
         <p>
-          Статус заказа -{" "}
-          {order.status === "InProcess" ? "В обработке" : "Доставлено"}
+          Статус заказа -
+          {order.status === "InProcess" ? " В обработке" : " Доставлено"}
         </p>
         <p>Доставлен: {deliveryTime}</p>
       </div>
