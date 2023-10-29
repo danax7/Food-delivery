@@ -29,7 +29,7 @@ const OrdersList = () => {
 
   return (
     <div>
-      <h2>Order History</h2>
+      <h2>Последние заказы</h2>
       {orders.map((order) => (
         <OrderItem key={order.id} order={order} />
       ))}
