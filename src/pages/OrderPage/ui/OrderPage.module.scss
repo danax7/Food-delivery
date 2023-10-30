@@ -9,7 +9,16 @@
     text-align: center;
   }
 }
-
+.confirmButton.confirmed {
+  background-color: var(--green);
+}
 .orderInfo {
   padding: 26px;
+}
+.sectionHeader {
+  gap: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }

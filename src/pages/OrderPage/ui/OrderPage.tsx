@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import s from "./OrderPage.module.scss";
 import { useFullAddress } from "@/shared/hooks/useFullAddress";
+import useConfirmDelivery from "@/shared/hooks/useConfirmDelivery";
 
 interface Dish {
   id: string;
@@ -27,6 +28,9 @@ interface Order {
 const OrderPage = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const [order, setOrder] = useState<Order | null>(null);
+  const { confirmed, confirmDelivery } = useConfirmDelivery({
+    orderId: order?.id,
+  });
   const fullAddress = useFullAddress(order?.address || null);
   useEffect(() => {
     const fetchOrder = async () => {
@@ -51,7 +55,19 @@ const OrderPage = () => {
     <div className={s.orderDetails}>
       {order ? (
         <div className={s.orderInfo}>
-          <h2> Детали заказа</h2>
+          <div className={s.sectionHeader}>
+            <h2> Детали заказа </h2>
+            {order.status === "Delivered" && (
+              <button className={`${s.confirmButton} ${s.confirmed}`}>
+                Доставка подтверждена
+              </button>
+            )}
+            {order.status === "InProcess" && (
+              <button className={s.confirmButton} onClick={confirmDelivery}>
+                Подтвердить доставку
+              </button>
+            )}
+          </div>
           <p>
             Дата заказа: {new Date(order.orderTime).toLocaleString("ru-RU")}
           </p>
