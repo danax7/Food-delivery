@@ -8,6 +8,7 @@ import { Header } from "@/modules/Header/ui/Header";
 import LoginPage from "@/pages/LoginPage/ui/LoginPage";
 import RegistrationPage from "@/pages/RegistrationPage/ui/RegistrationPage";
 import OrderPage from "@/pages/OrderPage/ui/OrderPage";
+import OrdersPage from "@/pages/OrdersPage/ui/OrdersPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/registration/" element={<RegistrationPage />} />
           <Route path="/login/" element={<LoginPage />} />
           <Route path="/order/:orderId" element={<OrderPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
         </Routes>
       </Provider>
     </BrowserRouter>
