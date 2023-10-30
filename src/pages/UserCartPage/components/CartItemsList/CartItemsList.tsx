@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../CartItem/CartItem";
 import s from "./CartsItemsList.module.scss";
+import { Link } from "react-router-dom";
 
 const CartItemList = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -22,6 +23,9 @@ const CartItemList = () => {
           <CartItem key={item.id} item={item} index={index} />
         ))}
       </div>
+      <Link to="/purchase/">
+        <button className={s.orderButton}>Оформить заказ</button>
+      </Link>
     </>
   );
 };
