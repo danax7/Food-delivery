@@ -21,6 +21,10 @@
     }
   }
   .info {
+    display: flex;
+    height: 46%;
+    flex-direction: column;
+    justify-content: space-between;
     padding-inline: 20px;
     .priceBlock {
       display: flex;
@@ -36,5 +40,11 @@
         color: var(--font-gray);
       }
     }
+  }
+  .cartActions {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    gap: 10px;
   }
 }

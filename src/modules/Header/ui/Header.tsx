@@ -6,6 +6,7 @@ import { selectIsAuthenticated } from "@/modules/Auth/Model/slice";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "@/modules/Auth/Model/thunk";
 import { AppDispatch } from "@/store/store";
+import HeaderLinksIcons from "../components/HeaderLinksIcons/HeaderLinksIcons";
 
 export const Header = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -19,9 +20,9 @@ export const Header = () => {
     <div className={s.header}>
       <HeaderLogo />
       <LinksList />
-
+      <HeaderLinksIcons />
       {!isAuthenticated && (
-        <div>
+        <div className={s.authButtons}>
           <Link to="/registration/" className={s.item}>
             Зарегистрироваться
           </Link>
@@ -44,4 +45,5 @@ export const Header = () => {
     </div>
   );
 };
+
 export default Header;

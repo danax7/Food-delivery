@@ -10,6 +10,7 @@ import RegistrationPage from "@/pages/RegistrationPage/ui/RegistrationPage";
 import OrderPage from "@/pages/OrderPage/ui/OrderPage";
 import OrdersPage from "@/pages/OrdersPage/ui/OrdersPage";
 import PurchasePage from "@/pages/PurchasePage/ui/PurchasePage";
+import UserCartPage from "@/pages/UserCartPage/ui/UserCartPage";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
           <Route path="/order/:orderId" element={<OrderPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/purchase" element={<PurchasePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/cart/" element={<UserCartPage />} />
         </Routes>
       </Provider>
     </BrowserRouter>

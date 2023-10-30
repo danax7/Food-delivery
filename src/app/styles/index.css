@@ -8,10 +8,13 @@ body {
   --backgorund: #1a1a1a;
   --green: #34c759;
   --black: black;
+  --dark-red: #7d2c1b;
+  --white: #fff;
   width: 100%;
   color: aliceblue;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: var(--backgorund);
+  scroll-behavior: smooth;
 }
 a:active,
 a:hover,

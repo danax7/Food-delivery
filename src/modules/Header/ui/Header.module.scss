@@ -21,6 +21,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 18px;
+
     .item:focus {
       color: var(--green);
     }
@@ -31,10 +32,32 @@
     .item {
       padding: 2vw;
     }
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+    span {
+      margin: 4px;
+      font-size: 18px;
+      background: var(--green);
+
+      border-radius: 5px;
+      color: whitesmoke;
+    }
   }
 }
 
 .userProfile {
   display: flex;
   align-items: center;
+  gap: 20px;
+  .item {
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+}
+
+.authButtons {
+  display: flex;
+  gap: 10px;
 }
