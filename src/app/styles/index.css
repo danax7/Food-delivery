@@ -4,8 +4,10 @@ body {
   min-height: 100vh;
   --Gray: #252525;
   --font-gray: #b3b3b3;
+  --darkgray: darkgray;
   --backgorund: #1a1a1a;
   --green: #34c759;
+  --black: black;
   width: 100%;
   color: aliceblue;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
