@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import s from "./OrderPage.module.scss";
+import { useFullAddress } from "@/shared/hooks/useFullAddress";
 
 interface Dish {
   id: string;
@@ -26,7 +27,7 @@ interface Order {
 const OrderPage = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const [order, setOrder] = useState<Order | null>(null);
-
+  const fullAddress = useFullAddress(order?.address || null);
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -48,14 +49,22 @@ const OrderPage = () => {
 
   return (
     <div className={s.orderDetails}>
-      <h2> Детали заказа</h2>
       {order ? (
-        <div>
-          <p>Дата заказа: {new Date(order.orderTime).toLocaleString()}</p>
-          <p>Дата доставки: {new Date(order.deliveryTime).toLocaleString()}</p>
+        <div className={s.orderInfo}>
+          <h2> Детали заказа</h2>
+          <p>
+            Дата заказа: {new Date(order.orderTime).toLocaleString("ru-RU")}
+          </p>
+          <p>
+            Дата доставки:{" "}
+            {new Date(order.deliveryTime).toLocaleString("ru-RU")}
+          </p>
 
-          <p>Адрес доставки: {order.address}</p>
-          <p>Статус заказа: {order.status}</p>
+          <p>Адрес доставки: {fullAddress}</p>
+          <p>
+            Статус заказа:{" "}
+            {order.status === "Delivered" ? "Доставлено" : "В обработке"}
+          </p>
           <h3>Список блюд:</h3>
           {order.dishes.map((dish: Dish, index) => (
             <CartItem
