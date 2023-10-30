@@ -15,7 +15,7 @@ export const LinksList = () => {
       <Link to={"/"} className={s.item}>
         Меню
       </Link>
-      <Link to="" className={s.item}>
+      <Link to="/orders/" className={s.item}>
         Заказы
       </Link>
       <Link to={"/cart/"} className={`${s.item} ${s.cart}`}>

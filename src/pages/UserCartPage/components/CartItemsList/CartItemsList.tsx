@@ -15,14 +15,19 @@ const CartItemList = () => {
   const cartItems = useSelector((state: RootState) => selectCartItems(state));
 
   return (
-    <>
+    <div className={s.CartItemList}>
       <h2>Корзина</h2>
-      <div className={s.CartItemList}>
+      <div>
         {cartItems.map((item, index) => (
-          <CartItem key={item.id} item={item} index={index} />
+          <CartItem
+            key={item.id}
+            item={item}
+            index={index}
+            withButtons={true}
+          />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 export default CartItemList;

@@ -1,33 +1,21 @@
-import axios from "axios";
-import { Order } from "../../types";
-import s from "./OrderItem.module.scss";
-import { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import s from "./OrderItem.module.scss";
+
+import { Order } from "../../types";
+import useConfirmDelivery from "@/shared/hooks/useConfirmDelivery";
+
 interface OrderItemProps {
   order: Order;
 }
 
 const OrderItem = ({ order }: OrderItemProps) => {
-  const [confirmed, setConfirmed] = useState<boolean>(false);
+  const { confirmed, confirmDelivery } = useConfirmDelivery({
+    orderId: order.id,
+  });
+
   const orderTime = new Date(order.orderTime).toLocaleString("ru-RU");
   const deliveryTime = new Date(order.deliveryTime).toLocaleString("ru-RU");
-  console.log(order.id);
-  const confirmDelivery = async () => {
-    try {
-      await axios.post(
-        `https://food-delivery.kreosoft.ru/api/order/${order.id}/status`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      setConfirmed(true);
-      console.log(`Order ${order.id} delivery confirmed successfully.`);
-    } catch (error) {
-      console.error("Failed to confirm order delivery:", error);
-    }
-  };
 
   return (
     <div className={s.orderItem}>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Order } from "../../types";
 import OrderItem from "../OrderItem/OrderItem";
-
+import s from "../../ui/OrdersPage.module.scss";
 const OrdersList = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
@@ -28,7 +28,7 @@ const OrdersList = () => {
   }, []);
 
   return (
-    <div>
+    <div className={s.ordersList}>
       <h2>Последние заказы</h2>
       {orders.map((order) => (
         <OrderItem key={order.id} order={order} />

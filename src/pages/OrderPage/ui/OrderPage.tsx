@@ -1,6 +1,10 @@
+import CartItem from "@/pages/UserCartPage/components/CartItem/CartItem";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import s from "./OrderPage.module.scss";
+import { useFullAddress } from "@/shared/hooks/useFullAddress";
+import useConfirmDelivery from "@/shared/hooks/useConfirmDelivery";
 
 interface Dish {
   id: string;
@@ -24,7 +28,10 @@ interface Order {
 const OrderPage = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const [order, setOrder] = useState<Order | null>(null);
-
+  const { confirmed, confirmDelivery } = useConfirmDelivery({
+    orderId: order?.id,
+  });
+  const fullAddress = useFullAddress(order?.address || null);
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -45,25 +52,47 @@ const OrderPage = () => {
   }, [orderId]);
 
   return (
-    <div>
-      <h2>Детали заказа</h2>
+    <div className={s.orderDetails}>
       {order ? (
-        <div>
-          <p>Дата заказа: {new Date(order.orderTime).toLocaleString()}</p>
-          <p>Дата доставки: {new Date(order.deliveryTime).toLocaleString()}</p>
-
-          <p>Адрес доставки: {order.address}</p>
-          <p>Статус заказа: {order.status}</p>
-          <h3>Список блюд:</h3>
-          <ul>
-            {order.dishes.map((dish: Dish) => (
-              <li key={dish.id}>
-                {dish.name} - {dish.amount} шт. - {dish.totalPrice} руб.
-              </li>
-            ))}
-          </ul>
+        <div className={s.orderInfo}>
+          <div className={s.sectionHeader}>
+            <h2> Детали заказа </h2>
+            {order.status === "Delivered" && (
+              <button className={`${s.confirmButton} ${s.confirmed}`}>
+                Доставка подтверждена
+              </button>
+            )}
+            {order.status === "InProcess" && (
+              <button className={s.confirmButton} onClick={confirmDelivery}>
+                Подтвердить доставку
+              </button>
+            )}
+          </div>
           <p>
-            <strong>Стоимость заказа:</strong> {order.price} руб.
+            Дата заказа: {new Date(order.orderTime).toLocaleString("ru-RU")}
+          </p>
+          <p>
+            Дата доставки:{" "}
+            {new Date(order.deliveryTime).toLocaleString("ru-RU")}
+          </p>
+
+          <p>Адрес доставки: {fullAddress}</p>
+          <p>
+            Статус заказа:{" "}
+            {order.status === "Delivered" ? "Доставлено" : "В обработке"}
+          </p>
+          <h3>Список блюд:</h3>
+          {order.dishes.map((dish: Dish, index) => (
+            <CartItem
+              key={dish.id}
+              item={dish}
+              index={index}
+              withButtons={false}
+            />
+          ))}
+          <p>
+            <strong>Стоимость заказа: </strong>
+            {order.price} руб.
           </p>
         </div>
       ) : (
