@@ -1,6 +1,8 @@
+import CartItem from "@/pages/UserCartPage/components/CartItem/CartItem";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import s from "./OrderPage.module.scss";
 
 interface Dish {
   id: string;
@@ -45,8 +47,8 @@ const OrderPage = () => {
   }, [orderId]);
 
   return (
-    <div>
-      <h2>Детали заказа</h2>
+    <div className={s.orderDetails}>
+      <h2> Детали заказа</h2>
       {order ? (
         <div>
           <p>Дата заказа: {new Date(order.orderTime).toLocaleString()}</p>
@@ -55,15 +57,17 @@ const OrderPage = () => {
           <p>Адрес доставки: {order.address}</p>
           <p>Статус заказа: {order.status}</p>
           <h3>Список блюд:</h3>
-          <ul>
-            {order.dishes.map((dish: Dish) => (
-              <li key={dish.id}>
-                {dish.name} - {dish.amount} шт. - {dish.totalPrice} руб.
-              </li>
-            ))}
-          </ul>
+          {order.dishes.map((dish: Dish, index) => (
+            <CartItem
+              key={dish.id}
+              item={dish}
+              index={index}
+              withButtons={false}
+            />
+          ))}
           <p>
-            <strong>Стоимость заказа:</strong> {order.price} руб.
+            <strong>Стоимость заказа: </strong>
+            {order.price} руб.
           </p>
         </div>
       ) : (

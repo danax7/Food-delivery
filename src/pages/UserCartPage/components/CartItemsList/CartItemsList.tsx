@@ -19,7 +19,12 @@ const CartItemList = () => {
       <h2>Корзина</h2>
       <div className={s.CartItemList}>
         {cartItems.map((item, index) => (
-          <CartItem key={item.id} item={item} index={index} />
+          <CartItem
+            key={item.id}
+            item={item}
+            index={index}
+            withButtons={true}
+          />
         ))}
       </div>
     </>

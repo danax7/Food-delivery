@@ -13,9 +13,10 @@ import trashIcon from "@/assets/img/trash_icon.svg";
 interface CartItemProps {
   item: CartItemType;
   index: number;
+  withButtons?: boolean;
 }
 
-const CartItem = ({ item, index }: CartItemProps) => {
+const CartItem = ({ item, index, withButtons }: CartItemProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   const handleAddToCart = async () => {
@@ -43,22 +44,30 @@ const CartItem = ({ item, index }: CartItemProps) => {
         <div className={s.Info}>
           <h3>{item.name}</h3>
           <p>Цена/шт: {item.price}₽</p>
+          {!withButtons && (
+            <p className={s.count}> Количество: {item.amount} шт. </p>
+          )}
         </div>
       </div>
 
       <div className={s.CartItemDetails}>
-        <div className={s.ButtonsBlock}>
-          <span onClick={handleRemoveFromCart}>-</span>
-          <p> {item.amount}</p>
-          <span onClick={handleAddToCart}>+</span>
-        </div>
+        {withButtons && (
+          <div className={s.ButtonsBlock}>
+            <span onClick={handleRemoveFromCart}>-</span>
+            <p> {item.amount}</p>
+            <span onClick={handleAddToCart}>+</span>
+          </div>
+        )}
+
         <p>{item.totalPrice}₽</p>
-        <img
-          src={trashIcon}
-          alt="logo"
-          onClick={handleRemoveFromCartCompletely}
-          className={s.removeAll}
-        />
+        {withButtons && (
+          <img
+            src={trashIcon}
+            alt="logo"
+            onClick={handleRemoveFromCartCompletely}
+            className={s.removeAll}
+          />
+        )}
       </div>
     </div>
   );
