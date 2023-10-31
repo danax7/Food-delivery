@@ -34,12 +34,12 @@ const OrderItem = ({ order }: OrderItemProps) => {
           <strong>Стоимость заказа </strong>
           {order.price} руб.
         </p>
-        {order.status === "Delivered" && (
+        {(order.status === "Delivered" || confirmed) && (
           <button className={`${s.confirmButton} ${s.confirmed}`}>
             Доставка подтверждена
           </button>
         )}
-        {order.status === "InProcess" && (
+        {order.status === "InProcess" && !confirmed && (
           <button className={s.confirmButton} onClick={confirmDelivery}>
             Подтвердить доставку
           </button>

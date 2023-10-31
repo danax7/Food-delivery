@@ -26,9 +26,14 @@ const PurchaseForm = () => {
 
     onSubmit: async (values) => {
       function formatDeliveryTime(date) {
-        const formattedDate = new Date(date).toISOString();
-        return formattedDate;
+        const localDate = new Date(date);
+        localDate.setHours(localDate.getHours() + 0);
+        const utcDate = new Date(
+          localDate.getTime() - localDate.getTimezoneOffset() * 60000
+        );
+        return utcDate.toISOString();
       }
+
       try {
         const orderData = {
           deliveryTime: formatDeliveryTime(values.deliveryTime),
