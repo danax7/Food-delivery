@@ -18,7 +18,7 @@ const PurchaseForm = () => {
       deliveryTime: Yup.date()
         .required("Required")
         .min(
-          new Date(Date.now() + 60 * 60 * 1000), // текущее время + 50 минут в миллисекундах
+          new Date(Date.now() + 60 * 60 * 1000),
           "Время доставки должно быть на 60 минут больше текущего времени"
         ),
       addressId: Yup.string().required("Required"),

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import s from "./OrderPage.module.scss";
 import { useFullAddress } from "@/shared/hooks/useFullAddress";
 import useConfirmDelivery from "@/shared/hooks/useConfirmDelivery";
+import useFetchOrder from "@/shared/hooks/useFetchOrder";
 
 interface Dish {
   id: string;
@@ -27,29 +28,12 @@ interface Order {
 
 const OrderPage = () => {
   const { orderId } = useParams<{ orderId: string }>();
-  const [order, setOrder] = useState<Order | null>(null);
+  const order: Order = useFetchOrder(orderId);
+  // const [order, setOrder] = useState<Order | null>(null);
   const { confirmed, confirmDelivery } = useConfirmDelivery({
     orderId: order?.id,
   });
   const fullAddress = useFullAddress(order?.address || null);
-  useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const response = await axios.get<Order>(
-          `https://food-delivery.kreosoft.ru/api/order/${orderId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setOrder(response.data);
-      } catch (error) {
-        console.error("Failed to fetch order:", error);
-      }
-    };
-    fetchOrder();
-  }, [orderId]);
 
   return (
     <div className={s.orderDetails}>

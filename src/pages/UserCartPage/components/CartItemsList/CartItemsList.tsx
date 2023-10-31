@@ -7,7 +7,12 @@ import CartItem from "../CartItem/CartItem";
 import s from "./CartsItemsList.module.scss";
 import { Link } from "react-router-dom";
 
-const CartItemList = () => {
+interface ICartItemList {
+  withButton?: boolean;
+  text?: string;
+}
+
+const CartItemList = ({ withButton, text }: ICartItemList) => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCart());
@@ -17,20 +22,25 @@ const CartItemList = () => {
 
   return (
     <div className={s.CartItemList}>
-      <h2>Корзина</h2>
+      {text ? <h2>{text}</h2> : <h2>Корзина</h2>}
       <div>
         {cartItems.map((item, index) => (
           <CartItem
             key={item.id}
             item={item}
             index={index}
-            withButtons={true}
+            withButtons={withButton ? withButton : false}
           />
         ))}
       </div>
-      <Link to="/purchase/">
-        <button className={s.orderButton}>Оформить заказ</button>
-      </Link>
+
+      {withButton ? (
+        <Link to="/purchase">
+          <button className={s.button}>Оформить заказ</button>
+        </Link>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
