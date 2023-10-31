@@ -6,6 +6,9 @@ import s from "./PurchaseForm.module.scss";
 import PurchaseAddressForm from "../PurchaseAddressForm/PurchaseAddressForm";
 import UserData from "../UserData/UserData";
 import PurchaseItemList from "../PurchaseItemsList/PurchaseItemList";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const PurchaseForm = () => {
   const [GUID, setGUID] = useState("");
 
@@ -49,7 +52,7 @@ const PurchaseForm = () => {
             },
           }
         );
-
+        toast.success("Заказ успешно размещен!");
         console.log("Order placed successfully:", orderData);
       } catch (error) {
         console.error("Failed to place order:", error);
@@ -66,6 +69,11 @@ const PurchaseForm = () => {
   return (
     <form onSubmit={formik.handleSubmit} className={s.form}>
       <div className={s.formWrapper}>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+        />
         <UserData />
         <div className={s.formItem}>
           <label htmlFor="deliveryTime">Выберите время доставки:</label>
@@ -85,12 +93,7 @@ const PurchaseForm = () => {
 
       <PurchaseAddressForm formik={formik} onGUIDChange={handleGUIDChange} />
       <PurchaseItemList />
-      <button
-        onClick={() =>
-          console.log(formik.errors, GUID, formik.values.deliveryTime)
-        }
-        type="submit"
-      >
+      <button onClick={() => console.log(formik.errors, GUID)} type="submit">
         Оформить заказ
       </button>
     </form>

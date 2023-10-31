@@ -10,6 +10,8 @@ import { AppDispatch } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, selectIsAuthenticated } from "@/modules/Auth/Model/slice";
 import AddressForm from "../AddressForm/AddressForm";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface UserData {
   fullName: string;
@@ -74,6 +76,7 @@ const ProfileForm = () => {
 
         console.log("Updated Data:", updatedData);
         await updateProfile(updatedData);
+        toast.success("Профиль успешно обновлен!");
       } catch (error) {
         console.error("Failed to update profile:", error);
       }
@@ -247,7 +250,7 @@ const ProfileForm = () => {
           addressChain={addressChain}
           onGUIDChange={handleGUIDChange}
         />
-
+        <ToastContainer />
         <button type="submit">Обновить</button>
       </div>
     </form>
