@@ -12,7 +12,7 @@ const UserCartPage = () => {
 
   return (
     <div>
-      <CartItemList />
+      <CartItemList withButton={true} />
     </div>
   );
 };

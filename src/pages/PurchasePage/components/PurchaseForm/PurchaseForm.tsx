@@ -6,6 +6,9 @@ import s from "./PurchaseForm.module.scss";
 import PurchaseAddressForm from "../PurchaseAddressForm/PurchaseAddressForm";
 import UserData from "../UserData/UserData";
 import PurchaseItemList from "../PurchaseItemsList/PurchaseItemList";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const PurchaseForm = () => {
   const [GUID, setGUID] = useState("");
 
@@ -18,7 +21,7 @@ const PurchaseForm = () => {
       deliveryTime: Yup.date()
         .required("Required")
         .min(
-          new Date(Date.now() + 60 * 60 * 1000), // текущее время + 50 минут в миллисекундах
+          new Date(Date.now() + 60 * 60 * 1000),
           "Время доставки должно быть на 60 минут больше текущего времени"
         ),
       addressId: Yup.string().required("Required"),
@@ -26,9 +29,14 @@ const PurchaseForm = () => {
 
     onSubmit: async (values) => {
       function formatDeliveryTime(date) {
-        const formattedDate = new Date(date).toISOString();
-        return formattedDate;
+        const localDate = new Date(date);
+        localDate.setHours(localDate.getHours() + 0);
+        const utcDate = new Date(
+          localDate.getTime() - localDate.getTimezoneOffset() * 60000
+        );
+        return utcDate.toISOString();
       }
+
       try {
         const orderData = {
           deliveryTime: formatDeliveryTime(values.deliveryTime),
@@ -44,7 +52,7 @@ const PurchaseForm = () => {
             },
           }
         );
-
+        toast.success("Заказ успешно размещен!");
         console.log("Order placed successfully:", orderData);
       } catch (error) {
         console.error("Failed to place order:", error);
@@ -61,6 +69,11 @@ const PurchaseForm = () => {
   return (
     <form onSubmit={formik.handleSubmit} className={s.form}>
       <div className={s.formWrapper}>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+        />
         <UserData />
         <div className={s.formItem}>
           <label htmlFor="deliveryTime">Выберите время доставки:</label>
@@ -80,12 +93,7 @@ const PurchaseForm = () => {
 
       <PurchaseAddressForm formik={formik} onGUIDChange={handleGUIDChange} />
       <PurchaseItemList />
-      <button
-        onClick={() =>
-          console.log(formik.errors, GUID, formik.values.deliveryTime)
-        }
-        type="submit"
-      >
+      <button onClick={() => console.log(formik.errors, GUID)} type="submit">
         Оформить заказ
       </button>
     </form>
