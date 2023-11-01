@@ -65,7 +65,7 @@ const MenuItemCard = ({
           <h2>{name}</h2>
           <ReactStars
             count={10}
-            value={rating + 2}
+            value={rating}
             size={24}
             edit={false}
             isHalf={true}
