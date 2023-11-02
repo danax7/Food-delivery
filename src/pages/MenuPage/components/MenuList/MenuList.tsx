@@ -34,10 +34,10 @@ const MenuList = () => {
     setSorting(sorting !== null ? sorting : null);
     setPage(page !== null ? parseInt(page) : 1);
 
-    const paramsToRequest = {};
+    const paramsToRequest: any = {};
 
     if (categories.length > 0) {
-      paramsToRequest.categories = categories.join("&categories=");
+      paramsToRequest.categories = categories;
     }
 
     if (vegetarian !== null) {
@@ -47,7 +47,7 @@ const MenuList = () => {
     if (sorting) {
       paramsToRequest.sorting = sorting;
     }
-
+    console.log(menu.pagination.count);
     if (page) {
       paramsToRequest.page = page;
     }
@@ -62,15 +62,44 @@ const MenuList = () => {
   }, [dispatch]);
 
   const handleChange = (name: string, value: string | boolean) => {
-    if (name === "categories" || name === "vegetarian") {
-      params.delete("page");
+    let updatedCategories = categories;
+    if (name === "categories") {
+      updatedCategories = categories.includes(value)
+        ? categories.filter((category) => category !== value)
+        : [...categories, value];
     }
+
+    const updatedParams = new URLSearchParams();
     if (value === "") {
-      params.delete(name);
+      updatedParams.delete(name);
     } else {
-      params.set(name, value.toString());
+      updatedParams.set("vegetarian", vegetarian?.toString() || "false");
+      updatedParams.set("sorting", sorting || "");
     }
-    setParams(params);
+
+    updatedCategories.forEach((category) => {
+      updatedParams.append("categories", category);
+    });
+    if (name === "page") {
+      updatedParams.set("page", value.toString());
+    }
+    if (name === "vegetarian") {
+      updatedParams.set("vegetarian", value.toString());
+    }
+    if (name === "sorting") {
+      updatedParams.set("sorting", value.toString() || "NameAsc");
+    }
+
+    setParams(updatedParams);
+
+    dispatch(
+      fetchMenu({
+        categories: updatedCategories,
+        vegetarian: updatedParams.get("vegetarian") === "true",
+        sorting: updatedParams.get("sorting") || "NameAsc",
+        page: page,
+      })
+    );
   };
 
   if (menu.loading === "pending") {
@@ -96,16 +125,48 @@ const MenuList = () => {
       <div className={s.SelectorsBlock}>
         <div className={s.Selector}>
           <label>Категории:</label>
-          <select
-            value={categories}
-            onChange={(e) => handleChange("categories", e.target.value)}
-          >
-            <option value="Wok">Воки</option>
-            <option value="Pizza">Пицца</option>
-            <option value="Soup">Супы</option>
-            <option value="Dessert">Десерты</option>
-            <option value="Drink">Напитки</option>
-          </select>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={categories.includes("Wok")}
+                onChange={() => handleChange("categories", "Wok")}
+              />
+              Воки
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={categories.includes("Pizza")}
+                onChange={() => handleChange("categories", "Pizza")}
+              />
+              Пицца
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={categories.includes("Soup")}
+                onChange={() => handleChange("categories", "Soup")}
+              />
+              Супы
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={categories.includes("Dessert")}
+                onChange={() => handleChange("categories", "Dessert")}
+              />
+              Десерты
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={categories.includes("Drink")}
+                onChange={() => handleChange("categories", "Drink")}
+              />
+              Напитки
+            </label>
+          </div>
         </div>
 
         <div className={s.Selector}>

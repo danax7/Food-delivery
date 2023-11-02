@@ -4,7 +4,7 @@ import { initialState } from "./state";
 import { MenuState } from "./types";
 
 interface FetchMenuParams {
-  categories: string;
+  categories: string[];
   vegetarian: boolean;
   page: number;
   sorting: string;
@@ -13,10 +13,22 @@ interface FetchMenuParams {
 export const fetchMenu = createAsyncThunk<MenuState, FetchMenuParams>(
   "menu/fetchMenu",
   async (params) => {
-    console.log(params);
+    let query = "";
+    if (params.categories) {
+      params.categories.forEach((item) => {
+        query += `categories=${item}&`;
+      });
+    }
+
     const response = await axios.get(
-      "https://food-delivery.kreosoft.ru/api/dish",
-      { params }
+      `https://food-delivery.kreosoft.ru/api/dish?${query}`,
+      {
+        params: {
+          vegetarian: params.vegetarian,
+          sorting: params.sorting,
+          page: params.page,
+        },
+      }
     );
     return response.data;
   }
