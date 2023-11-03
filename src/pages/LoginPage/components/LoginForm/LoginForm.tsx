@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { loginUser } from "@/modules/Auth/Model/thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import s from "./LoginForm.module.scss";
 import { selectIsAuthenticated } from "@/modules/Auth/Model/slice";
 
@@ -79,12 +79,16 @@ const LoginForm = () => {
         </div>
 
         <button type="submit">Login</button>
+        <span>
+          Или{" "}
+          <u>
+            <Link to={"/registration/"}>зарегестрируйтесь</Link>
+          </u>
+          , если у вас еще нет аккаунта
+        </span>
       </form>
     </div>
   );
 };
 
 export default LoginForm;
-function useEfffect() {
-  throw new Error("Function not implemented.");
-}

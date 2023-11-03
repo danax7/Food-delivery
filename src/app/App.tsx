@@ -1,6 +1,6 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { MenuPage } from "@/pages/MenuPage/ui/MenuPage";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store } from "@/store/store";
 import DishPage from "@/pages/DishPage/ui/DishPage";
 import ProfilePage from "@/pages/ProfilePage/ui/ProfilePage";
@@ -11,6 +11,8 @@ import OrderPage from "@/pages/OrderPage/ui/OrderPage";
 import OrdersPage from "@/pages/OrdersPage/ui/OrdersPage";
 import PurchasePage from "@/pages/PurchasePage/ui/PurchasePage";
 import UserCartPage from "@/pages/UserCartPage/ui/UserCartPage";
+import { selectIsAuthenticated } from "@/modules/Auth/Model/slice";
+import PrivateRoute from "./PrivateRouter";
 
 function App() {
   return (
@@ -20,14 +22,29 @@ function App() {
         <Routes>
           <Route path="" element={<MenuPage />} />
           <Route path="/item/:dishId" element={<DishPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/registration/" element={<RegistrationPage />} />
-          <Route path="/login/" element={<LoginPage />} />
-          <Route path="/order/:orderId" element={<OrderPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
-          <Route path="/purchase" element={<PurchasePage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/cart/" element={<UserCartPage />} />
+          <Route
+            path="/profile"
+            element={<PrivateRoute element={<ProfilePage />} />}
+          />
+          <Route
+            path="/orders"
+            element={<PrivateRoute element={<OrdersPage />} />}
+          />
+
+          <Route
+            path="/order/:orderId"
+            element={<PrivateRoute element={<OrderPage />} />}
+          />
+          <Route
+            path="/purchase"
+            element={<PrivateRoute element={<PurchasePage />} />}
+          />
+          <Route
+            path="/cart/"
+            element={<PrivateRoute element={<UserCartPage />} />}
+          />
         </Routes>
       </Provider>
     </BrowserRouter>
