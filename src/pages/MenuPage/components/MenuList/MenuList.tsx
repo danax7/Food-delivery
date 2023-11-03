@@ -47,7 +47,7 @@ const MenuList = () => {
     if (sorting) {
       paramsToRequest.sorting = sorting;
     }
-    console.log(menu.pagination.count);
+
     if (page) {
       paramsToRequest.page = page;
     }
@@ -125,7 +125,7 @@ const MenuList = () => {
       <div className={s.SelectorsBlock}>
         <div className={s.Selector}>
           <label>Категории:</label>
-          <div>
+          <div className={s.categoriesList}>
             <label>
               <input
                 type="checkbox"
@@ -218,6 +218,7 @@ const MenuList = () => {
           <button
             key={pageNumber}
             onClick={() => handleChange("page", pageNumber)}
+            className={pageNumber === page ? s.selectedPage : ""}
           >
             {pageNumber}
           </button>
