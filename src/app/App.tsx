@@ -11,7 +11,6 @@ import OrderPage from "@/pages/OrderPage/ui/OrderPage";
 import OrdersPage from "@/pages/OrdersPage/ui/OrdersPage";
 import PurchasePage from "@/pages/PurchasePage/ui/PurchasePage";
 import UserCartPage from "@/pages/UserCartPage/ui/UserCartPage";
-import { selectIsAuthenticated } from "@/modules/Auth/Model/slice";
 import PrivateRoute from "./PrivateRouter";
 
 function App() {
@@ -26,24 +25,49 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/profile"
-            element={<PrivateRoute element={<ProfilePage />} />}
+            element={
+              <PrivateRoute>
+                {" "}
+                <ProfilePage />{" "}
+              </PrivateRoute>
+            }
           />
           <Route
             path="/orders"
-            element={<PrivateRoute element={<OrdersPage />} />}
+            element={
+              <PrivateRoute>
+                {" "}
+                <OrdersPage />{" "}
+              </PrivateRoute>
+            }
           />
 
           <Route
             path="/order/:orderId"
-            element={<PrivateRoute element={<OrderPage />} />}
+            element={
+              <PrivateRoute>
+                {" "}
+                <OrderPage />{" "}
+              </PrivateRoute>
+            }
           />
           <Route
             path="/purchase"
-            element={<PrivateRoute element={<PurchasePage />} />}
+            element={
+              <PrivateRoute>
+                {" "}
+                <PurchasePage />{" "}
+              </PrivateRoute>
+            }
           />
           <Route
             path="/cart/"
-            element={<PrivateRoute element={<UserCartPage />} />}
+            element={
+              <PrivateRoute>
+                {" "}
+                <UserCartPage />{" "}
+              </PrivateRoute>
+            }
           />
         </Routes>
       </Provider>

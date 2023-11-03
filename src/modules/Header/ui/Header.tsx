@@ -7,10 +7,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "@/modules/Auth/Model/thunk";
 import { AppDispatch } from "@/store/store";
 import HeaderLinksIcons from "../components/HeaderLinksIcons/HeaderLinksIcons";
+import { useEffect } from "react";
+import { fetchCart } from "@/modules/UserCart/Model/thunk";
 
 export const Header = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [dispatch]);
 
   const handleLogout = () => {
     dispatch(logoutUser());
