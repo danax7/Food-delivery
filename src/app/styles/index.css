@@ -21,6 +21,9 @@ a:hover,
 a {
   text-decoration: none;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 button {
   border-radius: 8px;
@@ -32,6 +35,7 @@ button {
   background-color: whitesmoke;
   cursor: pointer;
   transition: border-color 0.25s;
+  max-width: 400px;
 }
 button:hover {
   border-color: #646cff;

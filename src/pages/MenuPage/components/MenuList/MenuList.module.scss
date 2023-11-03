@@ -6,7 +6,7 @@
   width: 95vw;
   justify-content: center;
   margin-left: auto;
-    margin-right: auto;
+  margin-right: auto;
 }
 .SelectorsBlock {
   gap: 20px;
@@ -14,9 +14,13 @@
   margin: 10px;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+    flex-direction: column-reverse;
+  }
 
   select {
-    width: 100%;
+    width: 90%;
     font-size: 1rem;
     padding: 0.675em 0.5em 0.675em 1em;
     background-color: #fff;
@@ -35,10 +39,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
   }
   display: flex;
   margin: 22px;
   gap: 5px;
   align-items: center;
   justify-content: center;
+}
+
+.categoriesList {
+  min-width: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+    flex-direction: row;
+  }
+}
+
+.selectedPage {
+  background-color: var(--green);
 }
