@@ -1,0 +1,64 @@
+.MenuList {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  width: 95vw;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.SelectorsBlock {
+  gap: 20px;
+  display: flex;
+  margin: 10px;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+    flex-direction: column-reverse;
+  }
+
+  select {
+    width: 90%;
+    font-size: 1rem;
+    padding: 0.675em 0.5em 0.675em 1em;
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
+  }
+}
+
+.Pagination {
+  button {
+    border-radius: 0;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  display: flex;
+  margin: 22px;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoriesList {
+  min-width: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+    flex-direction: row;
+  }
+}
+
+.selectedPage {
+  background-color: var(--green);
+}

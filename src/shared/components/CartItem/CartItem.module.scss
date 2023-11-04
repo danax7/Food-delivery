@@ -1,0 +1,78 @@
+.CartItem {
+  display: flex;
+  justify-content: space-around;
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
+  img {
+    height: 120px;
+    border-radius: 10px;
+  }
+  .InfoBlock {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  @media screen and (max-width: 570px) {
+    flex-direction: column;
+    width: 90vw;
+  }
+}
+
+.CartItemDetails {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  // width: 20%;
+  gap: 14px;
+  font-size: 24px;
+  justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    width: unset;
+    gap: 12px;
+    p {
+      font-size: 20px;
+      margin: 0;
+    }
+    img {
+      height: 18px;
+    }
+  }
+
+  img {
+    height: 38px;
+  }
+  .removeAll {
+    cursor: pointer;
+  }
+}
+
+.ButtonsBlock {
+  display: flex;
+  align-items: center;
+
+  span {
+    font-size: 30px;
+    cursor: pointer;
+  }
+  p {
+    font-size: 26px;
+    border: 2px solid white;
+    width: 30px;
+    text-align: center;
+    margin: 10px;
+  }
+  @media screen and (max-width: 768px) {
+    width: unset;
+    p {
+      font-size: 20px;
+    }
+    img {
+      height: 18px;
+    }
+  }
+}
+.count {
+  font-size: 16px;
+}

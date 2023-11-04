@@ -1,0 +1,7 @@
+export const getFullAddress = (): string => {
+  const fullAddress = addressChain
+    .map((addressObj) => addressObj.text)
+    .join(", ");
+
+  return fullAddress;
+};

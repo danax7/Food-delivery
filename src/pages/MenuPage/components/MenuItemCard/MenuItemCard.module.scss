@@ -1,0 +1,53 @@
+.MenuItemCard {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  min-height: 420px;
+  border-radius: 6px;
+  background-color: var(--Gray);
+  .DishImage {
+    width: 380px;
+  }
+  .addToCart {
+    background-color: var(--green);
+    height: 40px;
+  }
+  .ImageBlock {
+    display: block;
+    position: relative;
+    .vegetarianIcon {
+      display: block;
+      position: absolute;
+      top: 70%;
+      left: 82%;
+    }
+  }
+  .info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-inline: 20px;
+    .priceBlock {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 14px;
+      p {
+        color: #32d74b;
+        font-size: 22px;
+      }
+    }
+    .description {
+      p {
+        color: var(--font-gray);
+      }
+    }
+  }
+  .cartActions {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+}
