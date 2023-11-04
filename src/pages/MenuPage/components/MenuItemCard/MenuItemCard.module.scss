@@ -1,4 +1,6 @@
 .MenuItemCard {
+  display: flex;
+  flex-direction: column;
   width: 380px;
   min-height: 420px;
   border-radius: 6px;
@@ -21,15 +23,16 @@
     }
   }
   .info {
+    flex: 1;
     display: flex;
-    height: 46%;
     flex-direction: column;
     justify-content: space-between;
     padding-inline: 20px;
     .priceBlock {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
+      padding-bottom: 14px;
       p {
         color: #32d74b;
         font-size: 22px;

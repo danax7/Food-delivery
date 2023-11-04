@@ -71,8 +71,10 @@ const MenuItemCard = ({
             isHalf={true}
             activeColor="#ffd700"
           />
+
           <p>{description}</p>
         </div>
+
         <div className={s.priceBlock}>
           <p> {price}₽</p>
           <div className={s.cartActions}>
