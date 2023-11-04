@@ -1,18 +1,22 @@
 .CartItem {
   display: flex;
   justify-content: space-around;
-  // margin: 26px;
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
   img {
     height: 120px;
     border-radius: 10px;
   }
   .InfoBlock {
+    flex: 1;
     display: flex;
     align-items: center;
     gap: 10px;
   }
   @media screen and (max-width: 570px) {
     flex-direction: column;
+    width: 90vw;
   }
 }
 

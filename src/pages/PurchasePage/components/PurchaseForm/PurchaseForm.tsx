@@ -3,11 +3,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import s from "./PurchaseForm.module.scss";
-import PurchaseAddressForm from "../PurchaseAddressForm/PurchaseAddressForm";
 import UserData from "../UserData/UserData";
 import PurchaseItemList from "../PurchaseItemsList/PurchaseItemList";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AddressForm from "@/shared/components/AddressForm/AddressForm";
 
 const PurchaseForm = () => {
   const [GUID, setGUID] = useState("");
@@ -91,7 +91,11 @@ const PurchaseForm = () => {
         </div>
       </div>
 
-      <PurchaseAddressForm formik={formik} onGUIDChange={handleGUIDChange} />
+      <AddressForm
+        formik={formik}
+        onGUIDChange={handleGUIDChange}
+        text={"Выбрать адрес"}
+      />
       <PurchaseItemList />
       <button onClick={() => console.log(formik.errors, GUID)} type="submit">
         Оформить заказ
