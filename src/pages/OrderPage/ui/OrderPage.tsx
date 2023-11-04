@@ -1,4 +1,4 @@
-import CartItem from "@/pages/UserCartPage/components/CartItem/CartItem";
+import CartItem from "@/shared/components/CartItem/CartItem";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

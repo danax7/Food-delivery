@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import s from "../ProfileForm/ProfileForm.module.scss";
+import s from "./AddressForm.module.scss";
 import axios from "axios";
-const AddressForm = ({ formik, onGUIDChange }) => {
+const AddressForm = ({ formik, onGUIDChange, text }) => {
   const [addressFields, setAddressFields] = useState<any[]>([]);
   const [addressChain, setAddressChain] = useState<any[]>([]);
   const [GUID, setGUID] = useState<string>("");
@@ -53,7 +53,7 @@ const AddressForm = ({ formik, onGUIDChange }) => {
 
   return (
     <div className={s.addressChain}>
-      <h3>Изменить адрес</h3>
+      <h3>{text ? text : "Изменить адрес"}</h3>
 
       <div className={s.formItem}>
         <label htmlFor="address">Субъект РФ</label>

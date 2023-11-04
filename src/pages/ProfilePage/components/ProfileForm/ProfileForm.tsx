@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, selectIsAuthenticated } from "@/modules/Auth/Model/slice";
-import AddressForm from "../AddressForm/AddressForm";
+import AddressForm from "@/shared/components/AddressForm/AddressForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
