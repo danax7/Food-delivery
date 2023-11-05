@@ -41,3 +41,14 @@
   padding: 16px;
   border-radius: 6px;
 }
+
+.select {
+  color: var(--black);
+  display: inline-block;
+
+  font-style: italic;
+  margin-top: 1em;
+  input {
+    color: black;
+  }
+}

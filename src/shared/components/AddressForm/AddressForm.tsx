@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import s from "./AddressForm.module.scss";
 import axios from "axios";
+import Select from "react-select";
 const AddressForm = ({ formik, onGUIDChange, text }) => {
   const [addressFields, setAddressFields] = useState<string[]>([]);
   const [addressChain, setAddressChain] = useState<string[]>([]);
@@ -21,6 +22,7 @@ const AddressForm = ({ formik, onGUIDChange, text }) => {
       "https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=0",
       setAddressFields
     );
+    handleAddressChange("0", 0);
   }, []);
 
   useEffect(() => {
@@ -39,9 +41,15 @@ const AddressForm = ({ formik, onGUIDChange, text }) => {
     }
   }, [addressChain, objectIdd]);
 
-  const handleAddressChange = async (objectId: string, chainIndex: number) => {
+  const handleAddressChange = async (
+    objectId: string,
+    chainIndex: number,
+    text?: string
+  ) => {
     const response = await axios.get(
-      `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}`
+      `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}&query=${
+        text || ""
+      }`
     );
 
     if (response.data) {
@@ -55,61 +63,43 @@ const AddressForm = ({ formik, onGUIDChange, text }) => {
     <div className={s.addressChain}>
       <h3>{text ? text : "Изменить адрес"}</h3>
 
-      <div className={s.formItem}>
-        <label htmlFor="address">Субъект РФ</label>
-        <select
-          id="address"
-          name="address"
-          onChange={(e) => {
-            const selectedObjectId = e.target.value;
-            formik.handleChange(e);
-            handleAddressChange(selectedObjectId, 0);
-          }}
-          onBlur={formik.handleBlur}
-          value={formik.values.address || ""}
-        >
-          <option value="" label="Регион"></option>
-          {addressFields.map((field, index) => (
-            <option key={index} value={field.objectId}>
-              {field.text}
-            </option>
-          ))}
-        </select>
-        {formik.touched.address && formik.errors.address ? (
-          <div>{formik.errors.address}</div>
-        ) : null}
-      </div>
-
       {addressChain.map((chain, chainIndex) => (
         <div key={chainIndex} className={s.formItem}>
           <label htmlFor={`level${chainIndex}`}>
             {chain[0]?.objectLevelText}
           </label>
           {chain.length > 0 && (
-            <select
+            <Select
+              className={s.select}
               id={`level${chainIndex}`}
               name={`level${chainIndex}`}
-              onChange={(e) => {
-                const selectedObjectId = e.target.value;
-                formik.handleChange(e);
+              options={chain.map((field) => ({
+                value: field.objectId,
+                label: field.text,
+              }))}
+              onChange={(selectedOption) => {
+                const selectedObjectId = selectedOption.value;
+                formik.setFieldValue(`level${chainIndex}`, selectedObjectId);
                 handleAddressChange(selectedObjectId, chainIndex);
               }}
               onBlur={formik.handleBlur}
-              value={formik.values[`level${chainIndex}`] || ""}
-            >
-              {chainIndex === addressChain.length - 1 ? (
-                <option value="" label=""></option>
-              ) : null}
-              {chain.map((field, index) => (
-                <option key={index} value={field.objectId}>
-                  {field.text}
-                </option>
-              ))}
-            </select>
+              value={
+                formik.values[`level${chainIndex}`]
+                  ? {
+                      value: formik.values[`level${chainIndex}`],
+                      label: chain.find(
+                        (field) =>
+                          field.objectId === formik.values[`level${chainIndex}`]
+                      )?.text,
+                    }
+                  : null
+              }
+            />
           )}
         </div>
       ))}
     </div>
   );
 };
+
 export default AddressForm;
