@@ -27,8 +27,8 @@ const ProfileForm = () => {
   const dispatch: AppDispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [GUID, setGUID] = useState("");
-  const [addressFields, setAddressFields] = useState<any[]>([]);
-  const [addressChain, setAddressChain] = useState<any[]>([]);
+  const [addressFields, setAddressFields] = useState<string[]>([]);
+  const [addressChain, setAddressChain] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [profileAdressGUID, setprofileAdressGUID] = useState<string>("");
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -58,7 +58,7 @@ const ProfileForm = () => {
     validationSchema: Yup.object({
       phoneNumber: Yup.string()
         .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, "Invalid phone number")
-        .required("Required"),
+        .required("Обязательное поле"),
     }),
 
     onSubmit: async (values) => {

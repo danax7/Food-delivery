@@ -16,6 +16,9 @@
   flex-direction: column;
   background-color: var(--Gray);
   border-radius: 8px;
+  a:hover {
+    display: unset;
+  }
   input {
     border-radius: 4px;
   }

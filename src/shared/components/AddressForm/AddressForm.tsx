@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import s from "./AddressForm.module.scss";
 import axios from "axios";
 const AddressForm = ({ formik, onGUIDChange, text }) => {
-  const [addressFields, setAddressFields] = useState<any[]>([]);
-  const [addressChain, setAddressChain] = useState<any[]>([]);
+  const [addressFields, setAddressFields] = useState<string[]>([]);
+  const [addressChain, setAddressChain] = useState<string[]>([]);
   const [GUID, setGUID] = useState<string>("");
   const [objectIdd, setObjectIdd] = useState<string>("");
 
@@ -39,9 +39,13 @@ const AddressForm = ({ formik, onGUIDChange, text }) => {
     }
   }, [addressChain, objectIdd]);
 
-  const handleAddressChange = async (objectId: string, chainIndex: number) => {
+  const handleAddressChange = async (
+    objectId: string,
+    chainIndex: number,
+    term?: string
+  ) => {
     const response = await axios.get(
-      `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}`
+      `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}&query=${term}`
     );
 
     if (response.data) {

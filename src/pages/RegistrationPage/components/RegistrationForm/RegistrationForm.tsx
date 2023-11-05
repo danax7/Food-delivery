@@ -31,7 +31,15 @@ const RegistrationForm = () => {
     validationSchema: Yup.object({
       phoneNumber: Yup.string()
         .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, "Invalid phone number")
-        .required("Required"),
+        .required("Обязательное поле"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Обязательное поле"),
+      password: Yup.string()
+        .min(6, "Пароль должен содержать не менее 6 символов")
+        .required("Обязательное поле"),
+
+      fullName: Yup.string().required("Обязательное поле"),
     }),
     onSubmit: async (values) => {
       try {
@@ -39,7 +47,7 @@ const RegistrationForm = () => {
           fullName: values.fullName,
           password: values.password,
           email: values.email,
-          addressId: GUID,
+          addressId: GUID || null,
           birthDate: selectedDate?.toISOString() || null,
           gender: values.gender,
           phoneNumber: values.phoneNumber,
