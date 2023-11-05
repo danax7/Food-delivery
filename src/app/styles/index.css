@@ -1,7 +1,7 @@
 body {
   margin: 0;
   /* display: flex; */
-  min-height: 100vh;
+  min-height: 100%;
   --Gray: #252525;
   --font-gray: #b3b3b3;
   --darkgray: darkgray;
@@ -15,6 +15,12 @@ body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: var(--backgorund);
   scroll-behavior: smooth;
+}
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
 }
 a:active,
 a:hover,

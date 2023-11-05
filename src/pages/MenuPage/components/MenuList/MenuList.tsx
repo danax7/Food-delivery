@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMenu } from "@/modules/MenuList/Model/slice";
+
 import { AppDispatch, RootState } from "@/store/store";
 import MenuItemCard from "../MenuItemCard/MenuItemCard";
 import s from "./MenuList.module.scss";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { fetchCart } from "@/modules/UserCart/Model/thunk";
+import { fetchMenu } from "@/modules/MenuList/Model/thunk";
 
 const MenuList = () => {
   const dispatch: AppDispatch = useDispatch();

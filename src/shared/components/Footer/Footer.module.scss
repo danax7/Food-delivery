@@ -1,0 +1,18 @@
+.footer {
+  background-color: var(--Gray);
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.name {
+  color: var(--green);
+  font-size: 24px;
+}

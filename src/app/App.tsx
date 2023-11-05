@@ -12,12 +12,14 @@ import OrdersPage from "@/pages/OrdersPage/ui/OrdersPage";
 import PurchasePage from "@/pages/PurchasePage/ui/PurchasePage";
 import UserCartPage from "@/pages/UserCartPage/ui/UserCartPage";
 import PrivateRoute from "./PrivateRouter";
+import Footer from "@/shared/components/Footer/Footer";
 
 function App() {
   return (
     <BrowserRouter>
       <Provider store={store}>
         <Header />
+
         <Routes>
           <Route path="" element={<MenuPage />} />
           <Route path="/item/:dishId" element={<DishPage />} />
@@ -70,6 +72,7 @@ function App() {
             }
           />
         </Routes>
+        <Footer />
       </Provider>
     </BrowserRouter>
   );

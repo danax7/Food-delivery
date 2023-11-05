@@ -19,12 +19,12 @@ const PurchaseForm = () => {
     },
     validationSchema: Yup.object({
       deliveryTime: Yup.date()
-        .required("Required")
+        .required("Обязательное поле")
         .min(
           new Date(Date.now() + 60 * 60 * 1000),
           "Время доставки должно быть на 60 минут больше текущего времени"
         ),
-      addressId: Yup.string().required("Required"),
+      addressId: Yup.string().required("Обязательное поле"),
     }),
 
     onSubmit: async (values) => {
