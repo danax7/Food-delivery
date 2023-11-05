@@ -39,13 +39,9 @@ const AddressForm = ({ formik, onGUIDChange, text }) => {
     }
   }, [addressChain, objectIdd]);
 
-  const handleAddressChange = async (
-    objectId: string,
-    chainIndex: number,
-    term?: string
-  ) => {
+  const handleAddressChange = async (objectId: string, chainIndex: number) => {
     const response = await axios.get(
-      `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}&query=${term}`
+      `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${objectId}`
     );
 
     if (response.data) {
