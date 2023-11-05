@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import s from "./AddressForm.module.scss";
 import axios from "axios";
 import Select from "react-select";
+
 const AddressForm = ({ formik, onGUIDChange, text }) => {
-  const [addressFields, setAddressFields] = useState<string[]>([]);
-  const [addressChain, setAddressChain] = useState<string[]>([]);
-  const [GUID, setGUID] = useState<string>("");
-  const [objectIdd, setObjectIdd] = useState<string>("");
+  const [addressFields, setAddressFields] = useState([]);
+  const [addressChain, setAddressChain] = useState([]);
+  const [GUID, setGUID] = useState("");
+  const [objectIdd, setObjectIdd] = useState("");
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const fetchData = async (url, callback) => {
+    console.log(url, addressChain);
     try {
       const response = await axios.get(url);
       callback(response.data);
@@ -18,10 +21,10 @@ const AddressForm = ({ formik, onGUIDChange, text }) => {
   };
 
   useEffect(() => {
-    fetchData(
-      "https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=0",
-      setAddressFields
-    );
+    // fetchData(
+    //   "https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=0",
+    //   setAddressFields
+    // );
     handleAddressChange("0", 0);
   }, []);
 
@@ -56,6 +59,8 @@ const AddressForm = ({ formik, onGUIDChange, text }) => {
       setAddressChain((prevChain) => prevChain.slice(0, chainIndex + 1));
       setAddressChain((prevChain) => [...prevChain, response.data]);
       setObjectIdd(objectId);
+      console.log("objectIdd", addressChain);
+      console.log("objectIdd", objectId);
     }
   };
 
@@ -80,6 +85,10 @@ const AddressForm = ({ formik, onGUIDChange, text }) => {
               onChange={(selectedOption) => {
                 const selectedObjectId = selectedOption.value;
                 formik.setFieldValue(`level${chainIndex}`, selectedObjectId);
+                setSelectedIds((prevIds) => {
+                  prevIds[chainIndex] = selectedObjectId;
+                  return prevIds;
+                });
                 handleAddressChange(selectedObjectId, chainIndex);
               }}
               onBlur={formik.handleBlur}
@@ -94,6 +103,20 @@ const AddressForm = ({ formik, onGUIDChange, text }) => {
                     }
                   : null
               }
+              // onInputChange={(inputValue: string) => {
+              //   fetchData(
+              //     `https://food-delivery.kreosoft.ru/api/address/search?parentObjectId=${
+              //       chainIndex ? selectedIds[chainIndex - 1] : 0
+              //     }&query=${inputValue || ""}`,
+              //     (data) => {
+              //       console.log("data", data);
+              //       setAddressChain((prevChain) => [
+              //         ...prevChain.slice(0, chainIndex),
+              //         data,
+              //       ]);
+              //     }
+              //   );
+              // }}
             />
           )}
         </div>
